@@ -1,0 +1,7 @@
+.settings/
+bin/
+*.key
+*.csr
+.project
+.classpath
+src/tests/
