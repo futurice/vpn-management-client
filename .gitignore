@@ -5,3 +5,4 @@ bin/
 .project
 .classpath
 src/tests/
+*.zip

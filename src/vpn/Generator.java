@@ -31,6 +31,11 @@ public class Generator {
 	
 	public String generateRequest(){
 		
+		//Check for openssl
+		if(!this.hasOpenSSL()){
+			return null;
+		}
+		
 		//Try to create the config for openssl
 		if (!this.generateConfigTemplate())
 			return null;
@@ -103,7 +108,6 @@ public class Generator {
 		return true;
 	}
 	
-	@SuppressWarnings("unused")
 	private boolean generateConfigTemplate(){
 		
 		FileWriter fw = null;
@@ -140,5 +144,17 @@ public class Generator {
 		
 		return false;
 	}
-
+	
+	/**
+	 * Checks for openssl
+	 * @return
+	 */
+	public boolean hasOpenSSL(){
+		try{
+			Process p = Runtime.getRuntime().exec("openssl version");
+		} catch (Exception e){
+			return false;
+		}
+		return true;
+	}
 }
