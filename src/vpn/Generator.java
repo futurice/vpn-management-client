@@ -1,3 +1,19 @@
+/**
+ * This class is used to generate a .csr and a .key file
+ * to use in OpenVPN applications.
+ * 
+ * When generating a csr + key, the class does the following:
+ * 1. Test for openssl
+ * 2. Create a template of information for openssl
+ * 3. Generate the key
+ * 4. Generate the .csr
+ * 5. Remove temporary files
+ * 
+ * Step 5 is the only one allowed to fail, and if it does a
+ * warning is printed to stderr.
+ */
+
+
 package vpn;
 
 import java.io.BufferedReader;
@@ -25,10 +41,14 @@ public class Generator {
 		this.email = email;
 		this.common = common;
 		this.key = this.common+".key";
-		this.request = this.common+".csr";
+		this.request = "";
 		
 	}
 	
+	/**
+	 * Generate the .key and .csr files.
+	 * @return
+	 */
 	public String generateRequest(){
 		
 		//Check for openssl
@@ -53,9 +73,13 @@ public class Generator {
 		if (!confFile.delete())
 			System.err.println("Temporary config file ("+Generator.conf+") was not deleted. Please delete it manually.");
 		
-		return request;
+		return this.request;
 	}
 	
+	/**
+	 * Runs the "openssl genrsa ..." command
+	 * @return
+	 */
 	private boolean genrsa(){
 		try {
 			String s;
@@ -63,35 +87,45 @@ public class Generator {
 			Process p = Runtime.getRuntime()
 			.exec("openssl genrsa -out "+this.key+" -aes128 "+
 					"-passout pass:"+this.pass+" 2048");
-
+			
+			if (p.waitFor() != 0)
+				return false;
+			
 	        BufferedReader stdErr = new BufferedReader(new 
 	                 InputStreamReader(p.getErrorStream()));
 	        
-	        BufferedReader stdIn = new BufferedReader(new 
-	                 InputStreamReader(p.getInputStream()));
-	        
-	        while((s=stdIn.readLine())!= null){
-	        	System.out.println(s);
-	        }
-	       
-            while ((s = stdErr.readLine()) != null){
+	        while ((s = stdErr.readLine()) != null){
             	System.err.println(s);
             }
 	            
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 	
+	/**
+	 * Runs the "openssl req ..." command
+	 * @return
+	 */
 	private boolean req(){
 		try {
 			String s;
 		
 			Process p = Runtime.getRuntime()
-			.exec("openssl req -new -key "+this.key+" -out "+this.request+" "+
+			.exec("openssl req -new -key "+this.key+" "+
 					"-config "+Generator.conf+" -passin pass:"+this.pass);
+			
+			if (p.waitFor() != 0)
+				return false;
+			
+			BufferedReader stdOut = new BufferedReader(new 
+	                 InputStreamReader(p.getInputStream()));
+	        
+	        while((s=stdOut.readLine())!= null){
+	        	this.request+=s+"\n";
+	        }
 
 	        BufferedReader stdErr = new BufferedReader(new 
 	                 InputStreamReader(p.getErrorStream()));
@@ -101,13 +135,17 @@ public class Generator {
             	return false;
             }
 	            
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-	
+	/**
+	 * Generates the template that openssl will use to create the csr
+	 * @return if the command was successful
+	 */
+	@SuppressWarnings("unused")
 	private boolean generateConfigTemplate(){
 		
 		FileWriter fw = null;
@@ -150,11 +188,18 @@ public class Generator {
 	 * @return
 	 */
 	public boolean hasOpenSSL(){
+		Process p;
 		try{
-			Process p = Runtime.getRuntime().exec("openssl version");
+			p = Runtime.getRuntime().exec("openssl version");
+			
+			if (p.waitFor() == 0)
+				return true;
+			else
+				return false;
+			
 		} catch (Exception e){
 			return false;
 		}
-		return true;
+		
 	}
 }

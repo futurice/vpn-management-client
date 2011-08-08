@@ -21,16 +21,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 
-	//GUI elements
+	// GUI elements
 	private JButton backButton;
 	private JButton nextButton;
 	private JButton cancelButton;
@@ -39,41 +40,60 @@ public class GUI extends JFrame implements ActionListener {
 	private JPanel contentPanel;
 	private CardLayout contentLayout;
 	private JComboBox employmentBox;
-	private JTextField ownerField;
-	private JComboBox computerBox;
+	private JTextField ldapUserField, emailField, smsPasswordField;
+	private JComboBox computerBox, ownerBox;
 	private JTextArea doneStatus;
+	private JPasswordField ldapPassField, vpnPassField, vpnPassField2;
 
-	//Text shown on the first page of the wizard
+	private GUI gui;
+
+	// Text shown on the first page of the wizard
 	private String introText = "This wizard will guide you through"
 			+ " the process of creating the configurations needed to access"
 			+ " the Futurice VPN service.";
 
-	//To keep track of which page we are on
+	// To keep track of which page we are on
 	private int state;
 
-	//The information we collect
+	// The information we collect
 	private String employmentStatus;
-	private String ownerName;
+	private String owner;
 	private String computerType;
+	private String ldapUser;
+	private String ldapPassword;
+	private String vpnPassword;
+	private String email;
+	private String smsPassword;
 
-	//The options to choose from
+	// The options to choose from
 	private String[] employmentOptions = { "Choose one.", "Employee",
 			"External" };
 	private String[] computerOptions = { "Choose one.", "Laptop", "Desktop",
-			"Mobile phone" };
-	
-	//Main program
+			"Mobile" };
+	private String[] ownerOptions = { "Choose one.", "Futurice", "Home" };
+
+	private static int INTRO = 0;
+	private static int FORM = 1;
+	private static int LOADING = 2;
+	private static int PASSWORD = 3;
+	private static int LOADING2 = 4;
+	private static int DONE = 5;
+
+	// Main program
 	private Configurator config;
-	
+
 	/**
 	 * The GUI for the configuration wizard.
+	 * 
 	 * @param configurator
 	 */
 
 	public GUI(Configurator configurator) {
+
+		// Cofigurator
 		this.config = configurator;
-		
-		//Set some options for this frame
+
+		// Set some options for this frame
 		this.setTitle("Futurice VPN Configuration Wizard");
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
@@ -83,10 +103,17 @@ public class GUI extends JFrame implements ActionListener {
 		});
 		this.setLayout(new BorderLayout());
 
+		// Initializing
 		this.employmentStatus = null;
-		this.ownerName = null;
+		this.owner = null;
 		this.computerType = null;
+		this.ldapPassField = null;
+		this.ldapUserField = null;
+		this.vpnPassword = null;
+		this.email = null;
+		this.gui = this;
 
+		// Buttons
 		this.backButton = new JButton("Back");
 		this.backButton.addActionListener(this);
 		this.nextButton = new JButton("Next");
@@ -94,12 +121,12 @@ public class GUI extends JFrame implements ActionListener {
 		this.cancelButton = new JButton("Cancel");
 		this.cancelButton.addActionListener(this);
 
-		//Panel to keep the buttons
+		// Panel to keep the buttons
 		this.navigationButtons = new JPanel();
 		this.navigationButtons.setLayout(new BorderLayout());
 		this.navigationButtons.add(new JSeparator(), BorderLayout.NORTH);
 
-		//Box to organize the buttons
+		// Box to organize the buttons
 		this.buttonsBox = new Box(BoxLayout.X_AXIS);
 		this.buttonsBox.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
 		this.buttonsBox.add(this.backButton);
@@ -110,7 +137,7 @@ public class GUI extends JFrame implements ActionListener {
 
 		this.navigationButtons.add(this.buttonsBox, java.awt.BorderLayout.EAST);
 
-		//Panel for actual content
+		// Panel for actual content
 		this.contentPanel = new JPanel();
 		this.contentPanel.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
 		this.contentLayout = new CardLayout();
@@ -119,11 +146,12 @@ public class GUI extends JFrame implements ActionListener {
 		this.add(this.contentPanel, BorderLayout.NORTH);
 		this.add(this.navigationButtons, BorderLayout.SOUTH);
 
-		//Initialize the different stages
-		this.setIntro();
-		this.setForm();
-		this.setLoading();
-		this.setDone();
+		// Initialize the different stages
+		this.setIntroView();
+		this.setFormView();
+		this.setLoadingView();
+		this.setPasswordView();
+		this.setDoneView();
 
 		this.state = 0;
 
@@ -135,7 +163,7 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * Set up the first page of the wizard
 	 */
-	public void setIntro() {
+	public void setIntroView() {
 		JPanel introPanel = new JPanel();
 		JTextArea introPane = new JTextArea();
 		introPane.setText(this.introText);
@@ -153,7 +181,7 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * Set up the page where we ask for the information
 	 */
-	public void setForm() {
+	public void setFormView() {
 		JPanel formPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(5, 5, 5, 5);
@@ -163,7 +191,30 @@ public class GUI extends JFrame implements ActionListener {
 		c.gridx = 0;
 		JLabel header = new JLabel("Please fill out the form below.");
 		formPanel.add(header, c);
+
+		// LDAP username
+		c.gridx = 0;
 		c.gridy++;
+		c.anchor = GridBagConstraints.LINE_END;
+		JLabel ldapU = new JLabel("Futurice username: ");
+		formPanel.add(ldapU, c);
+		this.ldapUserField = new JTextField(20);
+		this.ldapUserField.addKeyListener(this);
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		formPanel.add(this.ldapUserField, c);
+
+		// LDAP password
+		c.gridx = 0;
+		c.gridy++;
+		c.anchor = GridBagConstraints.LINE_END;
+		JLabel ldapP = new JLabel("Futurice password: ");
+		formPanel.add(ldapP, c);
+		this.ldapPassField = new JPasswordField(20);
+		this.ldapPassField.addKeyListener(this);
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		formPanel.add(this.ldapPassField, c);
 
 		// Employment dropdown
 		c.weightx = 0.5;
@@ -174,33 +225,21 @@ public class GUI extends JFrame implements ActionListener {
 		formPanel.add(employment, c);
 		employmentBox = new JComboBox(this.employmentOptions);
 		employmentBox.addActionListener(this);
-		employment.setLabelFor(employmentBox);
 		c.gridx++;
 		c.anchor = GridBagConstraints.LINE_START;
 		formPanel.add(employmentBox, c);
 
 		// Owner
-		c.weightx = 0.5;
 		c.gridx = 0;
 		c.gridy++;
 		c.anchor = GridBagConstraints.LINE_END;
-		JLabel owner = new JLabel("Owner: ");
+		JLabel owner = new JLabel("Computer owner: ");
 		formPanel.add(owner, c);
-		ownerField = new JTextField(20);
-		
-		//We check the value after each key release
-		ownerField.addKeyListener(new KeyListener(){
-			public void keyTyped(KeyEvent keyEvent) {}
-			public void keyPressed(KeyEvent arg0) {}
-			public void keyReleased(KeyEvent arg0) {
-				ownerName = ownerField.getText();
-				checkForm();
-			}
-		});
-		owner.setLabelFor(ownerField);
+		ownerBox = new JComboBox(this.ownerOptions);
+		ownerBox.addActionListener(this);
 		c.gridx++;
 		c.anchor = GridBagConstraints.LINE_START;
-		formPanel.add(ownerField, c);
+		formPanel.add(ownerBox, c);
 
 		// Computer type
 		c.gridx = 0;
@@ -208,7 +247,6 @@ public class GUI extends JFrame implements ActionListener {
 		c.anchor = GridBagConstraints.LINE_END;
 		JLabel computer = new JLabel("Computer type: ");
 		formPanel.add(computer, c);
-
 		computerBox = new JComboBox(computerOptions);
 		computerBox.addActionListener(this);
 		computer.setLabelFor(computerBox);
@@ -216,38 +254,102 @@ public class GUI extends JFrame implements ActionListener {
 		c.anchor = GridBagConstraints.LINE_START;
 		formPanel.add(computerBox, c);
 
+		// VPN password
+		c.gridx = 0;
+		c.gridy++;
+		c.anchor = GridBagConstraints.LINE_END;
+		JLabel vpnP = new JLabel("Choose VPN password: ");
+		formPanel.add(vpnP, c);
+		this.vpnPassField = new JPasswordField(20);
+		this.vpnPassField.addKeyListener(this);
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		formPanel.add(this.vpnPassField, c);
+
+		// VPN password confirmation
+		c.gridx = 0;
+		c.gridy++;
+		c.anchor = GridBagConstraints.LINE_END;
+		JLabel vpnP2 = new JLabel("Confirm VPN password: ");
+		formPanel.add(vpnP2, c);
+		this.vpnPassField2 = new JPasswordField(20);
+		this.vpnPassField2.addKeyListener(this);
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		formPanel.add(this.vpnPassField2, c);
+
+		// email
+		c.gridx = 0;
+		c.gridy++;
+		c.anchor = GridBagConstraints.LINE_END;
+		JLabel emailL = new JLabel("Email: ");
+		formPanel.add(emailL, c);
+		this.emailField = new JTextField(20);
+		this.emailField.addKeyListener(this);
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		formPanel.add(this.emailField, c);
+
+		// hint
+		c.gridx = 0;
+		c.gridy++;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridwidth=2;
+		JLabel hint = new JLabel("Hint: Make sure the vpn passwords match.");
+		formPanel.add(hint, c);
+
 		this.contentPanel.add(formPanel, "form");
 	}
-	
+
 	/**
-	 * Set up a "Loading" page to show while we wait for the configuration
+	 * Set up a "Loading" page to show while we wait
 	 */
-	public void setLoading(){
+	public void setLoadingView() {
 		JPanel loadingPanel = new JPanel();
 		JLabel loadingLabel = new JLabel("Please wait.");
 		loadingPanel.add(loadingLabel);
 		this.contentPanel.add(loadingPanel, "loading");
 	}
 
+	public void setPasswordView() {
+		JPanel passwordPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(5, 5, 5, 5);
+
+		// Header
+		c.gridy = 0;
+		c.gridx = 0;
+		c.gridwidth = 2;
+		JLabel header = new JLabel(
+				"Please enter the password you recieved by sms.");
+		passwordPanel.add(header, c);
+		c.gridwidth = 1;
+
+		// LDAP username
+		c.gridx = 0;
+		c.gridy++;
+		c.anchor = GridBagConstraints.LINE_END;
+		JLabel label = new JLabel("Password: ");
+		passwordPanel.add(label, c);
+		this.smsPasswordField = new JTextField(20);
+		this.smsPasswordField.addKeyListener(this);
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		passwordPanel.add(this.smsPasswordField, c);
+
+		this.contentPanel.add(passwordPanel, "password");
+	}
+
 	/**
 	 * Set up the last page of the wizard
 	 */
-	public void setDone(){
+	public void setDoneView() {
 		JPanel donePanel = new JPanel();
-		JLabel doneLabel = new JLabel("You are done! \\o/");
+		JLabel doneLabel = new JLabel("You are done!");
 		doneStatus = new JTextArea();
 		donePanel.add(doneLabel);
+		donePanel.add(doneStatus);
 		this.contentPanel.add(donePanel, "done");
-	}
-	public void checkForm() {
-		if (this.ownerName != null && this.ownerName.length() > 0
-				&& this.employmentStatus != null
-				&& this.employmentStatus.length() > 0
-				&& this.computerType != null && this.computerType.length() > 0) {
-			this.nextButton.setEnabled(true);
-		} else {
-			this.nextButton.setEnabled(false);
-		}
 	}
 
 	/**
@@ -255,18 +357,48 @@ public class GUI extends JFrame implements ActionListener {
 	 */
 	public void next() {
 		switch (this.state) {
+	
+		// If we're on the first page
 		case 0:
 			this.contentLayout.show(this.contentPanel, "form");
 			this.nextButton.setEnabled(false);
 			this.backButton.setEnabled(true);
-			this.state++;
+			this.state = FORM;
 			this.checkForm();
 			break;
-
+	
+		// On the second page, filling the form
 		case 1:
 			this.contentLayout.show(this.contentPanel, "loading");
 			this.nextButton.setEnabled(false);
-			this.state++;
+			this.backButton.setEnabled(false);
+			this.state = LOADING;
+			this.sendForm();
+			break;
+	
+		// On the Please wait -page
+		case 2:
+			this.contentLayout.show(this.contentPanel, "password");
+			this.backButton.setEnabled(true);
+			this.state = PASSWORD;
+			break;
+	
+		// On the password page
+		case 3:
+			this.contentLayout.show(this.contentPanel, "loading");
+			this.sendPassword();
+			this.backButton.setEnabled(false);
+			this.nextButton.setEnabled(false);
+			this.state = LOADING2;
+			break;
+	
+		// Loading page again
+		case 4:
+			this.contentLayout.show(this.contentPanel, "done");
+			this.backButton.setEnabled(false);
+			this.nextButton.setEnabled(false);
+			this.cancelButton.setText("Finish");
+			this.state = DONE;
 			break;
 		}
 		this.repaint();
@@ -277,22 +409,124 @@ public class GUI extends JFrame implements ActionListener {
 	 */
 	public void back() {
 		switch (this.state) {
+		// While filling the form
 		case 1:
 			this.contentLayout.show(this.contentPanel, "intro");
 			this.nextButton.setEnabled(true);
-			this.state--;
+			this.state = INTRO;
 			break;
-			
+	
+		// Loading screen
 		case 2:
 			this.contentLayout.show(this.contentPanel, "form");
-			this.state--;
+			this.state = FORM;
 			this.checkForm();
 			break;
+	
+		// Password screen
+		case 3:
+			this.contentLayout.show(this.contentPanel, "form");
+			this.state = FORM;
+			this.checkForm();
+			break;
+	
+		// Done screen
+		case 5:
+			this.contentLayout.show(this.contentPanel, "password");
+			this.state = PASSWORD;
+			break;
+	
+		}
+	}
+
+	/**
+	 * Check that the values in the form are not empty
+	 */
+	public void checkForm() {
+		this.updateValues();
+		if (this.owner != null
+				&& !this.owner.isEmpty()
+				&& this.employmentStatus != null
+				&& !this.employmentStatus.isEmpty()
+				&& this.computerType != null
+				&& !this.computerType.isEmpty()
+				&& this.ldapUser != null
+				&& !this.ldapUser.isEmpty()
+				&& this.ldapPassword != null
+				&& !this.ldapPassword.isEmpty()
+				&& this.vpnPassword != null
+				&& !this.vpnPassword.isEmpty()
+				&& this.email != null
+				&& !this.email.isEmpty()
+				&& this.vpnPassword.equals(String
+						.copyValueOf(this.vpnPassField2.getPassword()))) {
+			this.nextButton.setEnabled(true);
+		} else {
+			this.nextButton.setEnabled(false);
+		}
+	}
+
+	private void updateValues() {
+		this.ldapUser = this.ldapUserField.getText();
+		this.ldapPassword = String
+				.copyValueOf(this.ldapPassField.getPassword());
+		this.vpnPassword = String.copyValueOf(this.vpnPassField.getPassword());
+		this.email = this.emailField.getText();
+	}
+
+	/**
+	 * This method sends the information to the configurator, which sends it to
+	 * the server.
+	 */
+	public void sendForm() {
+
+		// Send the form in a new thread so the GUI won't stall
+		Thread send = new Thread() {
+			public void run() {
+				gui.returnMessage(config.askForSettings(ldapUser, ldapPassword,
+						vpnPassword, computerType, email, owner,
+						employmentStatus));
+			}
+		};
+		send.start();
+
+	}
+
+	/**
+	 * This method sends the password to the back end
+	 */
+	public void sendPassword() {
+
+		// New Thread to keep gui responsive
+		Thread send = new Thread() {
+			public void run() {
+				gui.returnMessage(config.enterPassword(smsPassword));
+			}
+		};
+		send.start();
+
+	}
+
+	/**
+	 * This method is called after the interaction with the back end is complete
+	 * 
+	 * @param message
+	 */
+	public void returnMessage(String message) {
+		if (message != null) {
+			JOptionPane.showConfirmDialog(this,
+					"There was an error when sending the information:\n"
+							+ message, "Error while sending information.",
+					JOptionPane.DEFAULT_OPTION);
+			this.back();
+		} else {
+			this.next();
 		}
 	}
 
 	/**
 	 * Show confirmation alert when trying to exit
+	 * 
 	 * @param frame
 	 */
 	public static void reallyQuit(JFrame frame) {
@@ -310,10 +544,16 @@ public class GUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
+		
 		if (source == this.cancelButton) {
+			if (this.state >= 4) {
+				System.exit(0);
+			}
 			reallyQuit(this);
+			
 		} else if (source == this.nextButton) {
 			this.next();
+			
 		} else if (source == this.backButton) {
 			this.back();
 
@@ -327,16 +567,7 @@ public class GUI extends JFrame implements ActionListener {
 			}
 			this.checkForm();
 
-			// Check the owner
-		} else if (source == this.ownerField) {
-			if (this.ownerField.getText().length() > 0) {
-				this.ownerName = this.ownerField.getText();
-			} else {
-				this.ownerName = null;
-			}
-			this.checkForm();
-
-			// Check computer type
+			// Check the computer
 		} else if (source == this.computerBox) {
 			if (this.computerBox.getSelectedIndex() != 0) {
 				this.computerType = this.computerOptions[this.computerBox
@@ -346,8 +577,38 @@ public class GUI extends JFrame implements ActionListener {
 			}
 			this.checkForm();
 
+			//Check the owner
+		} else if (source == this.ownerBox) {
+			if (this.ownerBox.getSelectedIndex() != 0) {
+				this.owner = this.ownerOptions[this.ownerBox.getSelectedIndex()];
+				
+			} else {
+				this.owner = null;
+			}
+			this.checkForm();
+
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		if (arg0.getSource() == this.smsPasswordField) {
+			this.smsPassword = this.smsPasswordField.getText();
+			if (!this.smsPassword.isEmpty()) {
+				this.nextButton.setEnabled(true);
+			}
+		} else {
+			this.checkForm();
 		}
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
 	}
 
 }
