@@ -76,6 +76,11 @@ public class Generator {
 		return this.request;
 	}
 	
+	public boolean moveKeyTo(File directory){
+		File keyFile = new File(this.key);
+		return keyFile.renameTo(new File(directory, keyFile.getName()));
+	}
+	
 	/**
 	 * Runs the "openssl genrsa ..." command
 	 * @return
@@ -188,9 +193,21 @@ public class Generator {
 	 * @return
 	 */
 	public boolean hasOpenSSL(){
+		String openssl = "openssl";
+		if (System.getProperty("os.name").startsWith("Windows")){
+			openssl = "C:\\Program Files (x86)\\OpenVPN\\bin\\openssl.exe";
+			File test = new File(openssl);
+			if (!test.exists()){
+				openssl = "C:\\Program Files \\OpenVPN\\bin\\openssl.exe";
+				File test2 = new File(openssl);
+				if (!test2.exists())
+					return false;
+			}
+		}
+		
 		Process p;
 		try{
-			p = Runtime.getRuntime().exec("openssl version");
+			p = Runtime.getRuntime().exec(openssl+" version");
 			
 			if (p.waitFor() == 0)
 				return true;

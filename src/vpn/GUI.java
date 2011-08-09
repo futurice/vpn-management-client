@@ -25,6 +25,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 public class GUI extends JFrame implements ActionListener, KeyListener {
@@ -44,13 +45,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	private JComboBox computerBox, ownerBox;
 	private JTextArea doneStatus;
 	private JPasswordField ldapPassField, vpnPassField, vpnPassField2;
+	private JLabel hint;
 
 	private GUI gui;
-
-	// Text shown on the first page of the wizard
-	private String introText = "This wizard will guide you through"
-			+ " the process of creating the configurations needed to access"
-			+ " the Futurice VPN service.";
 
 	// To keep track of which page we are on
 	private int state;
@@ -156,6 +153,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		this.state = 0;
 
 		this.setMinimumSize(new Dimension(500, 500));
+		this.pack();
 		this.setLocationByPlatform(true);
 		this.setVisible(true);
 	}
@@ -166,10 +164,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	public void setIntroView() {
 		JPanel introPanel = new JPanel();
 		JTextArea introPane = new JTextArea();
-		introPane.setText(this.introText);
 		introPane.setLineWrap(true);
 		introPane.setWrapStyleWord(true);
-		introPane.setSize(400, 400);
+		introPane.setText(this.config.getIntroText());
+		introPane.setOpaque(false);
+		introPane.setSize(400, 500);
 		introPanel.add(introPane);
 
 		this.backButton.setEnabled(false);
@@ -295,8 +294,16 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		c.gridy++;
 		c.anchor = GridBagConstraints.LINE_START;
 		c.gridwidth=2;
-		JLabel hint = new JLabel("Hint: Make sure the vpn passwords match.");
+		this.hint = new JLabel("");
 		formPanel.add(hint, c);
+		
+		// hint
+		c.gridx = 0;
+		c.gridy+=2;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridwidth=2;
+		JLabel n = new JLabel("When you click next, a password will be sent to your phone.");
+		formPanel.add(n, c);
 
 		this.contentPanel.add(formPanel, "form");
 	}
@@ -316,12 +323,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(5, 5, 5, 5);
 
-		// Header
+		// Header (receive)
 		c.gridy = 0;
 		c.gridx = 0;
 		c.gridwidth = 2;
 		JLabel header = new JLabel(
-				"Please enter the password you recieved by sms.");
+				"Please enter the password you received by sms.");
 		passwordPanel.add(header, c);
 		c.gridwidth = 1;
 
@@ -345,9 +352,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	 */
 	public void setDoneView() {
 		JPanel donePanel = new JPanel();
-		JLabel doneLabel = new JLabel("You are done!");
 		doneStatus = new JTextArea();
-		donePanel.add(doneLabel);
+		doneStatus.setOpaque(false);
+		doneStatus.setLineWrap(true);
+		doneStatus.setWrapStyleWord(true);
+		doneStatus.setSize(400, 500);
+		doneStatus.setText(this.config.getFinishingText());
 		donePanel.add(doneStatus);
 		this.contentPanel.add(donePanel, "done");
 	}
@@ -461,13 +471,22 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 				&& this.vpnPassword.equals(String
 						.copyValueOf(this.vpnPassField2.getPassword()))) {
 			this.nextButton.setEnabled(true);
+			this.hint.setText("");
 		} else {
+			if (!this.vpnPassword.equals(String
+						.copyValueOf(this.vpnPassField2.getPassword()))){
+				this.hint.setText("Make sure the VPN passwords are identical.");
+			} else {
+				this.hint.setText("");
+			}
 			this.nextButton.setEnabled(false);
 		}
 	}
 
 	private void updateValues() {
 		this.ldapUser = this.ldapUserField.getText();
+		if (this.ldapUser != null)
+			this.emailField.setText(this.ldapUser+"@futurice.com");
 		this.ldapPassword = String
 				.copyValueOf(this.ldapPassField.getPassword());
 		this.vpnPassword = String.copyValueOf(this.vpnPassField.getPassword());
