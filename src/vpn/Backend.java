@@ -205,6 +205,7 @@ public class Backend {
 					.openConnection();
 
 			// Set some connection values
+			connection.setConnectTimeout(10000);
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");

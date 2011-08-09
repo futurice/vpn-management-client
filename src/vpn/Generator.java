@@ -29,6 +29,7 @@ public class Generator {
 	String email;
 	String key;
 	String request;
+	String openssl;
 	
 	static String conf = "temp.conf";
 	
@@ -52,7 +53,7 @@ public class Generator {
 	public String generateRequest(){
 		
 		//Check for openssl
-		if(!this.hasOpenSSL()){
+		if(this.hasOpenSSL()==null){
 			return null;
 		}
 		
@@ -90,7 +91,7 @@ public class Generator {
 			String s;
 		
 			Process p = Runtime.getRuntime()
-			.exec("openssl genrsa -out "+this.key+" -aes128 "+
+			.exec(this.openssl +" genrsa -out "+this.key+" -aes128 "+
 					"-passout pass:"+this.pass+" 2048");
 			
 			if (p.waitFor() != 0)
@@ -119,7 +120,7 @@ public class Generator {
 			String s;
 		
 			Process p = Runtime.getRuntime()
-			.exec("openssl req -new -key "+this.key+" "+
+			.exec(this.openssl +" req -new -key "+this.key+" "+
 					"-config "+Generator.conf+" -passin pass:"+this.pass);
 			
 			if (p.waitFor() != 0)
@@ -192,8 +193,8 @@ public class Generator {
 	 * Checks for openssl
 	 * @return
 	 */
-	public boolean hasOpenSSL(){
-		String openssl = "openssl";
+	public String hasOpenSSL(){
+		this.openssl = "openssl";
 		if (System.getProperty("os.name").startsWith("Windows")){
 			openssl = "C:\\Program Files (x86)\\OpenVPN\\bin\\openssl.exe";
 			File test = new File(openssl);
@@ -201,7 +202,7 @@ public class Generator {
 				openssl = "C:\\Program Files \\OpenVPN\\bin\\openssl.exe";
 				File test2 = new File(openssl);
 				if (!test2.exists())
-					return false;
+					return null;
 			}
 		}
 		
@@ -210,12 +211,12 @@ public class Generator {
 			p = Runtime.getRuntime().exec(openssl+" version");
 			
 			if (p.waitFor() == 0)
-				return true;
+				return openssl;
 			else
-				return false;
+				return null;
 			
 		} catch (Exception e){
-			return false;
+			return null;
 		}
 		
 	}
