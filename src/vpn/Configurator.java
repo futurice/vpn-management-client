@@ -209,7 +209,7 @@ public class Configurator {
 				// Unzip and move key
 				if (this.unzip(zip, configDir)
 						&& key.renameTo(new File(configDir, key.getName())))
-					return 0;
+					return ERROR;
 
 			} else {
 				return ERROR;

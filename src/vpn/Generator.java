@@ -118,13 +118,13 @@ public class Generator {
 	private boolean req(){
 		try {
 			String s;
+			File confFile = new File(Generator.conf);
 		
 			Process p = Runtime.getRuntime()
 			.exec(this.openssl +" req -new -key "+this.key+" "+
-					"-config "+Generator.conf+" -passin pass:"+this.pass);
+					"-config "+confFile.getAbsolutePath()+" -passin pass:"+this.pass);
 			
-			if (p.waitFor() != 0)
-				return false;
+			
 			
 			BufferedReader stdOut = new BufferedReader(new 
 	                 InputStreamReader(p.getInputStream()));
@@ -138,8 +138,10 @@ public class Generator {
 	       
             if ((s = stdErr.readLine()) != null){
             	System.err.println(s);
-            	return false;
             }
+            
+            if (p.waitFor() != 0)
+				return false;
 	            
 		} catch (Exception e) {
 			e.printStackTrace();
