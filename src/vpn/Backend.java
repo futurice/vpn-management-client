@@ -94,7 +94,7 @@ public class Backend {
 					&& !r.getBoolean("correct_password")) {
 				return "Wrong password.";
 			} else {
-				return r.getString("message");
+				return r.toString();
 			}
 
 		} catch (Exception e) {

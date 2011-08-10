@@ -44,7 +44,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	private JComboBox computerBox, ownerBox;
 	private JTextArea doneStatus;
 	private JPasswordField ldapPassField, vpnPassField, vpnPassField2;
-	private JLabel hint;
+	private JLabel hint, statusLabel;
 
 	private GUI gui;
 
@@ -314,6 +314,8 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		JPanel loadingPanel = new JPanel();
 		JLabel loadingLabel = new JLabel("Please wait.");
 		loadingPanel.add(loadingLabel);
+		this.statusLabel = new JLabel("Status");
+		loadingPanel.add(this.statusLabel);
 		this.contentPanel.add(loadingPanel, "loading");
 	}
 
@@ -404,6 +406,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		// Loading page again
 		case 4:
 			this.contentLayout.show(this.contentPanel, "done");
+			this.doneStatus.setText(this.config.getFinishingText());
 			this.backButton.setEnabled(false);
 			this.nextButton.setEnabled(false);
 			this.cancelButton.setText("Finish");
@@ -438,6 +441,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			this.state = FORM;
 			this.checkForm();
 			break;
+			
+		case 4:
+			this.contentLayout.show(this.contentPanel, "password");
+			this.state = PASSWORD;
+			break;
 	
 		// Done screen
 		case 5:
@@ -446,6 +454,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			break;
 	
 		}
+		this.repaint();
 	}
 
 	/**
@@ -507,6 +516,21 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			}
 		};
 		send.start();
+		
+		Thread statusUpdates = new Thread(){
+			public void run(){
+				while(gui.state == 2){
+					gui.statusLabel.setText(gui.config.getStatus());
+					gui.repaint();
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		statusUpdates.start();
 
 	}
 
@@ -522,6 +546,21 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			}
 		};
 		send.start();
+		
+		Thread statusUpdates = new Thread(){
+			public void run(){
+				while(gui.state == 4){
+					gui.statusLabel.setText(gui.config.getStatus());
+					gui.repaint();
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		statusUpdates.start();
 
 	}
 
