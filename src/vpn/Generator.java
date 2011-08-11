@@ -90,9 +90,10 @@ public class Generator {
 		try {
 			String s;
 		
+			String[] cmd = {this.openssl,"genrsa", "-out", this.key,"-aes128",
+					"-passout", "pass:"+this.pass, "2048"};
 			Process p = Runtime.getRuntime()
-			.exec(this.openssl +" genrsa -out "+this.key+" -aes128 "+
-					"-passout pass:"+this.pass+" 2048");
+			.exec(cmd);
 			
 			if (p.waitFor() != 0)
 				return false;
@@ -119,10 +120,12 @@ public class Generator {
 		try {
 			String s;
 			File confFile = new File(Generator.conf);
+			
+			String[] cmd = {this.openssl, "req", "-new", "-key", this.key,
+					"-config", confFile.getAbsolutePath(), "-passin", "pass:"+this.pass};
 		
 			Process p = Runtime.getRuntime()
-			.exec(this.openssl +" req -new -key "+this.key+" "+
-					"-config "+confFile.getAbsolutePath()+" -passin pass:"+this.pass);
+			.exec(cmd);
 			
 			
 			

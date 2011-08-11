@@ -21,11 +21,14 @@ import java.net.URLEncoder;
 
 import org.json.JSONObject;
 
+import org.apache.commons.codec.binary.*;
+
 public class Backend {
 
 	private String user;
 	private String pass;
 	private String file;
+	private Configurator config;
 
 	/**
 	 * The constructor needs the user's username and password
@@ -33,10 +36,11 @@ public class Backend {
 	 * @param username
 	 * @param password
 	 */
-	public Backend(String username, String password) {
+	public Backend(String username, String password, Configurator config) {
 		this.user = username;
 		this.pass = password;
 		this.file = "settings.zip";
+		this.config = config;
 	}
 
 	/**
@@ -89,6 +93,7 @@ public class Backend {
 			JSONObject r = new JSONObject(response);
 
 			if (r.getBoolean("success")) {
+				config.setStatus("Downloading settings.");
 				return this.downloadZip(r.getString("zip_url"));
 			} else if (r.has("correct_password")
 					&& !r.getBoolean("correct_password")) {
@@ -127,9 +132,8 @@ public class Backend {
 			URL url = new URL(urlString);
 
 			// Encode the user name and password
-			String encoding = new String(
-					org.apache.commons.codec.binary.Base64
-							.encodeBase64(org.apache.commons.codec.binary.StringUtils
+			String encoding = new String(Base64
+							.encodeBase64(StringUtils
 									.getBytesUtf8(this.user + ":" + this.pass)));
 
 			// Open connection to server
@@ -188,22 +192,22 @@ public class Backend {
 			e1.printStackTrace();
 			return null;
 		}
-
 		String response = "";
 		try {
 
 			URL url = new URL(urlString);
-
+			this.config.setStatus("Trying to encode authentication.");
 			// Encode the user name and password
-			String encoding = new String(
-					org.apache.commons.codec.binary.Base64
-							.encodeBase64(org.apache.commons.codec.binary.StringUtils
+			String encoding = new String(Base64
+							.encodeBase64(StringUtils
 									.getBytesUtf8(this.user + ":" + this.pass)));
+			
+			this.config.setStatus("Encoded authentication");
 
 			// Open connection to server
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
-
+			this.config.setStatus("Opened connection.");
 			// Set some connection values
 			connection.setConnectTimeout(10000);
 			connection.setRequestMethod("POST");
@@ -221,7 +225,7 @@ public class Backend {
 			os.writeBytes(postParameters);
 			os.flush();
 			os.close();
-
+			this.config.setStatus("Connection open.");
 			// Read the response
 			InputStream content = (InputStream) connection.getInputStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -230,6 +234,7 @@ public class Backend {
 			while ((line = in.readLine()) != null) {
 				response += line;
 			}
+			this.config.setStatus("Connection closed.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

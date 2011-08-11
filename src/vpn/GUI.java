@@ -519,7 +519,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		
 		Thread statusUpdates = new Thread(){
 			public void run(){
-				while(gui.state == 2){
+				while(gui.state == LOADING){
 					gui.statusLabel.setText(gui.config.getStatus());
 					gui.repaint();
 					try {
@@ -549,7 +549,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		
 		Thread statusUpdates = new Thread(){
 			public void run(){
-				while(gui.state == 4){
+				while(gui.state == LOADING2){
 					gui.statusLabel.setText(gui.config.getStatus());
 					gui.repaint();
 					try {

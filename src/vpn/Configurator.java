@@ -99,7 +99,7 @@ public class Configurator {
 	public String askForSettings(String ldapUser, String ldapPass, String pass,
 			String computer, String email, String owner, String employment) {
 
-		this.backend = new Backend(ldapUser, ldapPass);
+		this.backend = new Backend(ldapUser, ldapPass, this);
 		this.status = "Backend connection established.";
 
 		this.commonName = this.createCommonName(ldapUser, computer, employment,
@@ -112,7 +112,6 @@ public class Configurator {
 		this.generator = new Generator(pass, this.commonName, email);
 		this.status = "Generating request.";
 		String request = this.generator.generateRequest();
-		
 
 		if (request == null)
 			return "Could not generate request files.";
@@ -156,14 +155,14 @@ public class Configurator {
 		if (this.backend == null)
 			return null;
 
-		this.status = "Sending password.";
+		this.setStatus("Sending password.");
 		String response = this.backend.sendPassword(password);
 
 		if (response != null) {
 			return response;
 		}
 
-		this.status = "Moving files.";
+		this.setStatus("Moving files.");
 		int moved = this.moveFilesToConfig(this.backend.getZip());
 
 		if (moved == CONFIG_FILES_DO_NOT_EXIST) {
@@ -172,20 +171,26 @@ public class Configurator {
 			return "Configuration directory did not exist.";
 		} else if (moved == COULD_NOT_MOVE) {
 
-			//Add directions for moving the files manually
+			// Add directions for moving the files manually
 			File currentDir = new File(".");
 			this.endText += "\nThe configuration files could not be moved. "
-					+ "This is most likely due to not running the wizard as "
-					+ "Administrator. You can manually copy the settings and key "
-					+ "from this directory: \n" + currentDir.getAbsolutePath()+
-					" in to this directory:\n"+this.confDirString+"\n\n"
-					+"The files needed are the .key file, the .ovpn file, " +
-					 "the .pem file and the .crt file. (The latter three are in the settings.zip)";
+					+ "\nYou can manually copy the settings and key "
+					+ "from this directory: \n"
+					+ currentDir.getAbsolutePath()
+					+ " in to this directory:\n"
+					+ this.confDirString
+					+ "\n\n"
+					+ "The files needed are the .key file, the .ovpn file, "
+					+ "the .pem file and the .crt file. (The latter three are in the settings.zip)";
 			return null;
 		} else if (moved != 0) {
 			return "Something went wrong";
 		}
 		this.status = "Done.";
+
+		this.endText += "\nThe configuration files have been moved to:\n"
+				+ this.confDirString + "\n\n";
+
 		return null;
 	}
 
@@ -218,13 +223,14 @@ public class Configurator {
 		} else if (this.os == WINDOWS) {
 
 			configDir = new File(this.confDirString);
-			
+
 		}
 
 		// Does conf directory exist?
 		if (configDir != null && configDir.exists()) {
 			if (this.commonName != null) {
 
+				this.setStatus("Unzipping.");
 				// Unzip and move key
 				if (this.unzip(zip, configDir)
 						&& key.renameTo(new File(configDir, key.getName()))) {
@@ -320,7 +326,7 @@ public class Configurator {
 				text += "Tunnelblick does not seem to be installed."
 						+ "Please make sure you have installed it before running this Wizard.";
 		}
-		
+
 		if (this.os == WINDOWS) {
 			File test = new File(this.confDirString);
 			if (!test.exists())
@@ -332,16 +338,20 @@ public class Configurator {
 	}
 
 	public String getFinishingText() {
-
+		String text="";
 		if (this.os == OSX) {
-			this.endText += "\nTo start a VPN connection, open Tunnelblick, \nclick the icon in the"
+			text += "\nTo start a VPN connection, open Tunnelblick, \nclick the icon in the"
 					+ " notification area \nand choose the futurice vpn connection.";
 		}
 
-		return this.endText;
+		return this.endText+text;
 	}
-	
-	public String getStatus(){
+
+	public String getStatus() {
 		return this.status;
+	}
+
+	public void setStatus(String stat) {
+		this.status = stat;
 	}
 }

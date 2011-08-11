@@ -1,0 +1,13 @@
+To convert the .jar file to a .exe that automatically checks for java and
+downloads it if it is not found do the following:
+
+1. Download jsmooth (http://jsmooth.sourceforge.net/)
+
+2. Open the .jsmooth file found in this folder. It is the
+   jsmooth project fot converting the .jar to a .exe.
+
+3. Make sure the .jar is found and the information in the 
+   project is correct and then compile the project. A 
+   standalone .exe file, that can be used to distribute the
+   application, will be saved in the directory specified in
+   the jsmooth project.
