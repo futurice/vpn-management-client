@@ -171,6 +171,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		introPanel.add(introPane);
 
 		this.backButton.setEnabled(false);
+		
+		if (Generator.openSSLPath()==null)
+			this.nextButton.setEnabled(false);
 
 		this.contentPanel.add(introPanel, "intro");
 		this.contentLayout.show(this.contentPanel, "intro");
@@ -198,6 +201,12 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		formPanel.add(ldapU, c);
 		this.ldapUserField = new JTextField(20);
 		this.ldapUserField.addKeyListener(this);
+		
+		if (this.config.getUser().length()== 4){
+			this.ldapUserField.setText(this.config.getUser());
+		}
+		
+		
 		c.gridx = 1;
 		c.anchor = GridBagConstraints.LINE_START;
 		formPanel.add(this.ldapUserField, c);

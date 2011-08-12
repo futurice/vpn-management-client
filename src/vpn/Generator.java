@@ -53,7 +53,8 @@ public class Generator {
 	public String generateRequest(){
 		
 		//Check for openssl
-		if(this.hasOpenSSL()==null){
+		this.openssl = openSSLPath();
+		if(this.openssl==null){
 			return null;
 		}
 		
@@ -198,8 +199,9 @@ public class Generator {
 	 * Checks for openssl
 	 * @return
 	 */
-	public String hasOpenSSL(){
-		this.openssl = "openssl";
+	public static String openSSLPath(){
+		
+		String openssl = "openssl";
 		if (System.getProperty("os.name").startsWith("Windows")){
 			openssl = "C:\\Program Files (x86)\\OpenVPN\\bin\\openssl.exe";
 			File test = new File(openssl);

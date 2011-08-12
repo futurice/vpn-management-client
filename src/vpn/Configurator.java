@@ -323,15 +323,20 @@ public class Configurator {
 		if (this.os == OSX) {
 			File test = new File(this.confDirString);
 			if (!test.exists())
-				text += "Tunnelblick does not seem to be installed."
+				text += "\n\nTunnelblick does not seem to be installed."
 						+ "Please make sure you have installed it before running this Wizard.";
 		}
 
 		if (this.os == WINDOWS) {
 			File test = new File(this.confDirString);
 			if (!test.exists())
-				text += "OpenVPN does not seem to be installed."
+				text += "\n\nOpenVPN does not seem to be installed."
 						+ "Please make sure you have installed it before running this Wizard.";
+		} else if (this.os == LINUX){
+			if (Generator.openSSLPath()==null){
+				text += "\n\nopenssl does not seem to be installed."
+					+ "Please make sure you have installed it before running this Wizard.";
+			}
 		}
 
 		return text;
@@ -353,5 +358,9 @@ public class Configurator {
 
 	public void setStatus(String stat) {
 		this.status = stat;
+	}
+	
+	public String getUser(){
+		return this.user;
 	}
 }

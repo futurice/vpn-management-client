@@ -11,3 +11,6 @@ downloads it if it is not found do the following:
    standalone .exe file, that can be used to distribute the
    application, will be saved in the directory specified in
    the jsmooth project.
+
+Note: You need to run the wizard as Administrator to be able to
+automatically copy the settings to the OpenVPN folder.

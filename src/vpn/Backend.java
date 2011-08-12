@@ -56,7 +56,9 @@ public class Backend {
 		String response = this.send(urlString, "csr", csr);
 
 		if (response == null)
-			return "The connection to the server failed.";
+			return "The connection to the server failed." +
+					"\nCheck your username and password and make" +
+					"\nsure you're connected to the Internet.";
 
 		// Try to parse the response
 		try {
@@ -99,7 +101,7 @@ public class Backend {
 					&& !r.getBoolean("correct_password")) {
 				return "Wrong password.";
 			} else {
-				return r.toString();
+				return r.getString("message");
 			}
 
 		} catch (Exception e) {
