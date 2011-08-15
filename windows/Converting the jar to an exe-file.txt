@@ -4,13 +4,17 @@ downloads it if it is not found do the following:
 1. Download jsmooth (http://jsmooth.sourceforge.net/)
 
 2. Open the .jsmooth file found in this folder. It is the
-   jsmooth project fot converting the .jar to a .exe.
+   jsmooth project for converting the .jar to a .exe.
 
-3. Make sure the .jar is found and the information in the 
-   project is correct and then compile the project. A 
-   standalone .exe file, that can be used to distribute the
-   application, will be saved in the directory specified in
-   the jsmooth project.
+3. When you open the jsmooth project file check that the Executable
+   section has a value for the "Executable Binary" and that the 
+   Application section has the right values for "Main class" (vpn.Main)
+   and "Embedded jar settings" (Use an embedded... is selected and the
+   jar is chosen)
+   
+4. To make the exe download java if not present, check the Skeleton
+   section. The "Autodownload wrapper" prompts the user for a download
+   if java is not present.
 
 Note: You need to run the wizard as Administrator to be able to
 automatically copy the settings to the OpenVPN folder.
