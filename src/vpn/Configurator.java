@@ -216,8 +216,18 @@ public class Configurator {
 
 			// Linux
 		} else if (this.os == LINUX) {
-
-			configDir = new File(this.confDirString);
+	
+			//Searches for a folder that doesn't exist yet
+			String foldername = "VPNsettings";
+			int i = 1;
+			File newFolder = new File(this.confDirString+foldername);
+			while (newFolder.exists()){
+				newFolder = new File(this.confDirString+foldername+i);
+				i++;
+			}
+			newFolder.mkdir();
+			configDir = newFolder;
+			this.confDirString = configDir.getAbsolutePath();
 
 			// Windows
 		} else if (this.os == WINDOWS) {
@@ -347,6 +357,9 @@ public class Configurator {
 		if (this.os == OSX) {
 			text += "\nTo start a VPN connection, open Tunnelblick, \nclick the icon in the"
 					+ " notification area \nand choose the futurice vpn connection.";
+		} else if (this.os == LINUX){
+			text += "\n\nPlease not that you have to change the paths in the .conf file" +
+					" to match your system.";
 		}
 
 		return this.endText+text;

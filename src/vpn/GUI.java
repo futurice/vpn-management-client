@@ -451,9 +451,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 			this.checkForm();
 			break;
 			
+		// Loading again
 		case 4:
 			this.contentLayout.show(this.contentPanel, "password");
 			this.state = PASSWORD;
+			this.nextButton.setEnabled(true);
 			break;
 	
 		// Done screen
