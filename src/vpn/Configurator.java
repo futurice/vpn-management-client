@@ -243,7 +243,7 @@ public class Configurator {
 				this.setStatus("Unzipping.");
 				// Unzip and move key
 				if (this.unzip(zip, configDir)
-						&& key.renameTo(new File(configDir, key.getName()))) {
+						&& this.moveKey(key, configDir, key.getName())) {
 					return 0;
 				} else {
 					return COULD_NOT_MOVE;
@@ -257,6 +257,14 @@ public class Configurator {
 			System.err.println("Configuration directory did not exist.");
 			return CONFIG_DIR_DOES_NOT_EXIST;
 		}
+	}
+	
+	private boolean moveKey(File key, File configDir, String keyName){
+		File test = new File(configDir.getAbsolutePath()+File.separator+keyName);
+		if (test.exists()){
+			test.delete();
+		}
+		return key.renameTo(new File(configDir, keyName));
 	}
 
 	/**
@@ -294,9 +302,15 @@ public class Configurator {
 						if (newFile.isDirectory())
 							break;
 					}
+					
+					File test = new File(confDir.getAbsolutePath()+File.separator+entryName);
+					if (test.exists()){
+						test.delete();
+						
+					}
 
 					FileOutputStream fileoutputstream = new FileOutputStream(
-							confDir.getAbsolutePath() + "/" + entryName);
+							confDir.getAbsolutePath() + File.separator + entryName);
 
 					while ((n = zipInStream.read(buf, 0, 1024)) > -1)
 						fileoutputstream.write(buf, 0, n);
