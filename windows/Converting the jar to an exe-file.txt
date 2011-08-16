@@ -18,3 +18,6 @@ downloads it if it is not found do the following:
 
 Note: You need to run the wizard as Administrator to be able to
 automatically copy the settings to the OpenVPN folder.
+
+Note2: When you export the jar in eclipse, make sure you extract the
+required libraries in to the jar.

@@ -7,11 +7,11 @@
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
 <arguments></arguments>
-<currentDirectory>C:\Users\oehn\Desktop\FuturiceVPNWizard.exe\${EXECUTABLEPATH}</currentDirectory>
+<currentDirectory>${EXECUTABLEPATH}</currentDirectory>
 <embeddedJar>true</embeddedJar>
-<executableName>..\..\..\Desktop\FuturiceVPNWizard.exe</executableName>
+<executableName>..\FuturiceVPNWizard.exe</executableName>
 <initialMemoryHeap>-1</initialMemoryHeap>
-<jarLocation>VPNWizard.jar</jarLocation>
+<jarLocation>..\FuturiceVPNWizard.jar</jarLocation>
 <mainClassName>vpn.Main</mainClassName>
 <maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
