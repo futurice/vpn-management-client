@@ -1,6 +1,8 @@
 Futurice VPN Configuration Wizard
+=================================
 
-** Description **
+Description
+-----------
 
 The purpose of this Java Application is to make setting up a VPN connection
 to the Futurice intranet easier. 
@@ -15,7 +17,8 @@ The wizard downloads this zip and tries to extract it in to the proper
 folder. If it fails it asks the user to extract the settings manually.
 
 
-** Classes **
+Classes
+-------
 
 - Main.java
 This class starts up the application. It has no other function.
@@ -36,7 +39,8 @@ This class interacts with the back end API. It sends the csr and password
 and downloads the settings. It also tries to unzip the settings in to
 the proper folder. It interacts with the Configurator class.
 
-** Supporting Libraries **
+Supporting Libraries
+--------------------
 
 - Commons Codec (http://commons.apache.org/codec/)
 - JSON in Java (http://json.org/java/)
