@@ -8,6 +8,7 @@ package vpn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.lang.Runtime;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -62,6 +63,7 @@ public class Configurator {
 			this.confDirString = "/Users/"
 					+ user
 					+ "/Library/Application Support/Tunnelblick/Configurations/";
+			this.startTunnelblick();
 		} else if (osString.startsWith("Windows")) {
 			this.os = WINDOWS;
 			this.confDirString = "C:\\Program Files (x86)\\OpenVPN\\config\\";
@@ -72,6 +74,17 @@ public class Configurator {
 			this.os = -1;
 		}
 
+	}
+
+        /**
+	 * Start Tunnelblick, so that we have the required directories created
+	 */
+        public void startTunnelblick() {
+	    try {
+		Runtime.getRuntime().exec(new String[] { "open", "/Applications/Tunnelblick.app" });
+	    } catch (Exception e) {
+		System.out.println(e.getMessage());
+	    }
 	}
 
 	/**
