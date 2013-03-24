@@ -206,7 +206,7 @@ public class Generator {
 			openssl = "C:\\Program Files (x86)\\OpenVPN\\bin\\openssl.exe";
 			File test = new File(openssl);
 			if (!test.exists()){
-				openssl = "C:\\Program Files \\OpenVPN\\bin\\openssl.exe";
+				openssl = "C:\\Program Files\\OpenVPN\\bin\\openssl.exe";
 				File test2 = new File(openssl);
 				if (!test2.exists())
 					return null;
