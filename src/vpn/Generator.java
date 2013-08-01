@@ -21,6 +21,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
 
 public class Generator {
 	
@@ -203,14 +207,39 @@ public class Generator {
 		
 		String openssl = "openssl";
 		if (System.getProperty("os.name").startsWith("Windows")){
-			openssl = "C:\\Program Files (x86)\\OpenVPN\\bin\\openssl.exe";
-			File test = new File(openssl);
-			if (!test.exists()){
-				openssl = "C:\\Program Files\\OpenVPN\\bin\\openssl.exe";
-				File test2 = new File(openssl);
-				if (!test2.exists())
-					return null;
-			}
+		    String base = "C:\\";
+		    File cDrive = new File(base);
+
+		    final IOFileFilter fileFilter = new IOFileFilter() {
+			    @Override
+			    public boolean accept(File file) {
+				return file.getName().toLowerCase().contains("openssl.exe");
+			    }
+			    @Override
+			    public boolean accept(File dir, String name) {
+				return name.toLowerCase().contains("openssl.exe");
+			    }
+			};
+
+		    final IOFileFilter dirFilter = new IOFileFilter() {
+			    @Override
+			    public boolean accept(File file) {
+				String nameLower = file.getName().toLowerCase();
+				return nameLower.contains("program files") || nameLower.contains("openvpn") || nameLower.contains("bin");
+			    }
+			    @Override
+			    public boolean accept(File dir, String name) {
+				String nameLower = name.toLowerCase();
+				return nameLower.contains("program files") || nameLower.contains("openvpn") || nameLower.contains("bin");
+			    }
+			};
+
+		    Iterator iter =  FileUtils.iterateFiles(cDrive, fileFilter, dirFilter);
+
+		    if(!iter.hasNext()) {
+			return null;
+		    }
+
 		}
 		
 		Process p;
