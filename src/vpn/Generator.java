@@ -213,11 +213,11 @@ public class Generator {
 		    final IOFileFilter fileFilter = new IOFileFilter() {
 			    @Override
 			    public boolean accept(File file) {
-				return file.getName().toLowerCase().contains("openssl.exe");
+				return file.getName().toLowerCase().contains(openssl+".exe");
 			    }
 			    @Override
 			    public boolean accept(File dir, String name) {
-				return name.toLowerCase().contains("openssl.exe");
+				return name.toLowerCase().contains(openssl+".exe");
 			    }
 			};
 
