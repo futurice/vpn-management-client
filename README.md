@@ -1,6 +1,9 @@
 Futurice VPN Configuration Wizard
 =================================
 
+This program still contains Futurice specific settings. This will be fixed
+soon. Backend will be open sourced during summer 2014.
+
 Description
 -----------
 
