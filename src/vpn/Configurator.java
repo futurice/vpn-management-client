@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.lang.Runtime;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.Properties;
 
 public class Configurator {
 
@@ -38,6 +39,8 @@ public class Configurator {
 
 	Generator generator;
 
+	Properties settings = new Properties();
+
 	int os;
 
 	/**
@@ -52,6 +55,13 @@ public class Configurator {
 		this.endText = "The wizard has finished.";
 
 		this.user = System.getProperty("user.name");
+
+		// load settings
+		try {
+			this.settings.load(new FileInputStream("settings.cfg"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 		// Try to figure out the OS
 		String osString = System.getProperty("os.name");
@@ -122,7 +132,7 @@ public class Configurator {
 				|| ldapPass == null)
 			return "Parameter null error.";
 
-		this.generator = new Generator(pass, this.commonName, email);
+		this.generator = new Generator(pass, this.commonName, email, this);
 		this.status = "Generating request.";
 		String request = this.generator.generateRequest();
 
@@ -346,9 +356,9 @@ public class Configurator {
 	}
 
 	public String getIntroText() {
-		String text = "Welcome to the Futurice VPN configuration wizard.\n"
+		String text = "Welcome to the " + this.getSettings("TITLE") + ".\n"
 				+ "\nYou will now be guided through the process of setting up a VPN"
-				+ " connection to the Futurice intranet.\n"
+				+ " connection to the " + this.getSettings("ORGANIZATION_NAME") + " intranet.\n"
 				+ "\nYou appear to be running "
 				+ osNames[this.os]
 				+ ", and your username is "
@@ -402,5 +412,9 @@ public class Configurator {
 	
 	public String getUser(){
 		return this.user;
+	}
+	
+	public String getSettings(String value) {
+		return this.settings.getProperty(value);
 	}
 }

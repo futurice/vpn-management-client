@@ -18,10 +18,12 @@ package vpn;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
@@ -37,16 +39,19 @@ public class Generator {
 	
 	static String conf = "temp.conf";
 	
+	private Configurator config;
+
 	/**
 	 * @param password, common name, email
 	 */
 	
-	public Generator(String pass, String common, String email){
+	public Generator(String pass, String common, String email, Configurator config){
 		this.pass = pass;
 		this.email = email;
 		this.common = common;
 		this.key = this.common+".key";
 		this.request = "";
+		this.config = config;
 		
 	}
 	
@@ -174,17 +179,17 @@ public class Generator {
 
 		if (fw != null) {
 			try {
-				fw.write("[ req ]\n"+
-							"default_bits           = 2048\n"+
+				System.out.println("[ req ]\n"+
+							"default_bits           = " + this.config.getSettings("DEFAULT_BITS") + "\n"+
 							"default_keyfile        = "+this.key+"\n"+
 							"distinguished_name     = req_distinguished_name\n"+
 							"prompt                 = no\n"+
 							"[ req_distinguished_name ]\n"+
-							"C                      = FI\n"+
-							"ST                     = Uusimaa\n"+
-							"L                      = Helsinki\n"+
-							"O                      = Futurice Oy\n"+
-							"OU                     = OpenVPN Machines\n"+
+							"C                      = " + this.config.getSettings("C") + "\n"+
+							"ST                     = " + this.config.getSettings("ST") + "\n"+
+							"L                      = " + this.config.getSettings("L") + "\n"+
+							"O                      = " + this.config.getSettings("O") + "\n"+
+							"OU                     = " + this.config.getSettings("OU") + "\n"+
 							"CN                     = "+this.common+"\n"+
 							"emailAddress           = "+this.email+"\n");
 				fw.close();

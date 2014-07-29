@@ -51,7 +51,7 @@ public class Backend {
 	 */
 	public String sendCSR(String csr) {
 
-		String urlString = "https://vpnmanagement.futurice.com/vpn/api/post_csr";
+		String urlString = this.config.getSettings("API_BASE_URL") + "/api/post_csr";
 
 		String response = this.send(urlString, "csr", csr);
 
@@ -84,7 +84,7 @@ public class Backend {
 	public String sendPassword(String password) {
 
 		String response = this.send(
-				"https://vpnmanagement.futurice.com/vpn/api/post_verification",
+				this.config.getSettings("API_BASE_URL") + "/api/post_verification",
 				"password", password);
 
 		if (response == null)

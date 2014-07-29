@@ -6,3 +6,4 @@ bin/
 .classpath
 src/tests/
 .idea
+settings.cfg
