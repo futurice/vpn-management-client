@@ -27,6 +27,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import vpn.Configurator;
+
 public class GUI extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
@@ -62,11 +64,9 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	private String smsPassword;
 
 	// The options to choose from
-	private String[] employmentOptions = { "Choose one.", "Employee",
-			"External" };
-	private String[] computerOptions = { "Choose one.", "Laptop", "Desktop",
-			"Mobile" };
-	private String[] ownerOptions = { "Choose one.", "Futurice", "Home" };
+	private String[] employmentOptions;
+	private String[] computerOptions;
+	private String[] ownerOptions;
 
 	private static int INTRO = 0;
 	private static int FORM = 1;
@@ -90,7 +90,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		this.config = configurator;
 
 		// Set some options for this frame
-		this.setTitle("Futurice VPN Configuration Wizard");
+		this.setTitle(this.config.getSettings("TITLE"));
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -108,6 +108,11 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		this.vpnPassword = null;
 		this.email = null;
 		this.gui = this;
+
+		// Initialize options
+		this.employmentOptions = this.config.getSettings("EMPLOYMENT_OPTIONS").split(",");
+		this.computerOptions = this.config.getSettings("COMPUTER_OPTIONS").split(",");
+		this.ownerOptions = this.config.getSettings("OWNER_OPTIONS").split(",");
 
 		// Buttons
 		this.backButton = new JButton("Back");
@@ -197,7 +202,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		c.gridx = 0;
 		c.gridy++;
 		c.anchor = GridBagConstraints.LINE_END;
-		JLabel ldapU = new JLabel("Futurice username: ");
+		JLabel ldapU = new JLabel(this.config.getSettings("LDAP_USERNAME_LABEL"));
 		formPanel.add(ldapU, c);
 		this.ldapUserField = new JTextField(20);
 		this.ldapUserField.addKeyListener(this);
@@ -215,7 +220,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		c.gridx = 0;
 		c.gridy++;
 		c.anchor = GridBagConstraints.LINE_END;
-		JLabel ldapP = new JLabel("Futurice password: ");
+		JLabel ldapP = new JLabel(this.config.getSettings("LDAP_PASSWORD_LABEL"));
 		formPanel.add(ldapP, c);
 		this.ldapPassField = new JPasswordField(20);
 		this.ldapPassField.addKeyListener(this);
@@ -228,7 +233,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		c.gridx = 0;
 		c.gridy++;
 		c.anchor = GridBagConstraints.LINE_END;
-		JLabel employment = new JLabel("Employment status: ");
+		JLabel employment = new JLabel(this.config.getSettings("EMPLOYMENT_LABEL"));
 		formPanel.add(employment, c);
 		employmentBox = new JComboBox(this.employmentOptions);
 		employmentBox.addActionListener(this);
@@ -240,7 +245,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		c.gridx = 0;
 		c.gridy++;
 		c.anchor = GridBagConstraints.LINE_END;
-		JLabel owner = new JLabel("Computer owner: ");
+		JLabel owner = new JLabel(this.config.getSettings("OWNER_LABEL"));
 		formPanel.add(owner, c);
 		ownerBox = new JComboBox(this.ownerOptions);
 		ownerBox.addActionListener(this);
@@ -252,7 +257,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 		c.gridx = 0;
 		c.gridy++;
 		c.anchor = GridBagConstraints.LINE_END;
-		JLabel computer = new JLabel("Computer type: ");
+		JLabel computer = new JLabel(this.config.getSettings("COMPUTER_LABEL"));
 		formPanel.add(computer, c);
 		computerBox = new JComboBox(computerOptions);
 		computerBox.addActionListener(this);
@@ -505,7 +510,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener {
 	private void updateValues() {
 		this.ldapUser = this.ldapUserField.getText();
 		if (this.ldapUser != null)
-			this.emailField.setText(this.ldapUser+"@futurice.com");
+			this.emailField.setText(this.ldapUser + "@" + this.config.getSettings("DOMAIN"));
 		this.ldapPassword = String
 				.copyValueOf(this.ldapPassField.getPassword());
 		this.vpnPassword = String.copyValueOf(this.vpnPassField.getPassword());

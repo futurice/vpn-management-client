@@ -1,0 +1,28 @@
+# Title for the wizard
+TITLE = VPN Configuration Wizard
+ORGANIZATION_NAME = Company
+
+# Form settings
+LDAP_USERNAME_LABEL = Ldap username: 
+LDAP_PASSWORD_LABEL = Ldap password: 
+EMPLOYMENT_LABEL = Employment status: 
+COMPUTER_LABEL = Computer type: 
+OWNER_LABEL = Computer owner: 
+
+EMPLOYMENT_OPTIONS = Choose one., Employee, External
+COMPUTER_OPTIONS = Choose one., Laptop, Desktop
+OWNER_OPTIONS = Choose one., Company, Home
+
+# Email settings
+DOMAIN = company.com
+
+# Key environment variables
+DEFAULT_BITS = 2048
+C = FI
+ST = Uusimaa
+L = Helsinki
+O = Company
+OU = OpenVPN Machines
+
+#VPN Management API
+API_BASE_URL = https://vpnmanagement.example.com
