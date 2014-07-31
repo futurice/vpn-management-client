@@ -166,7 +166,7 @@ public class Configurator {
 		if (employment.equals("External"))
 			common += "-ext";
 
-		if (!owner.equalsIgnoreCase("Futurice"))
+		if (!owner.equalsIgnoreCase(this.getSettings("ORGANIZATION_NAME")))
 			common += "-" + owner;
 
 		common += "-" + computer;
