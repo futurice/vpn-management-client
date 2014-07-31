@@ -179,7 +179,7 @@ public class Generator {
 
 		if (fw != null) {
 			try {
-				System.out.println("[ req ]\n"+
+				fw.write("[ req ]\n"+
 							"default_bits           = " + this.config.getSettings("DEFAULT_BITS") + "\n"+
 							"default_keyfile        = "+this.key+"\n"+
 							"distinguished_name     = req_distinguished_name\n"+
