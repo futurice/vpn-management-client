@@ -3,7 +3,9 @@ VPN Configuration Wizard
 Description
 -----------
 
-The purpose of this Java Application is to make setting up a VPN connection easier. 
+The purpose of this Java Application is to make setting up a VPN connection easier.
+
+**Note:** You must have OpenVPN installed before running the wizard. For OS X, use [Tunnelblick](https://code.google.com/p/tunnelblick/).
 
 The application uses openssl to generate a .key file and a request that is 
 sent to an API. The API responds by sending an sms to the users mobile 
