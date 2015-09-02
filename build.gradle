@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id 'application'
+    id "edu.sc.seis.macAppBundle" version '2.1.1'
+    id 'edu.sc.seis.launch4j' version '1.5.1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'commons-io:commons-io:2.4'
+    compile 'commons-codec:commons-codec:1.10'
+    testCompile 'junit:junit:4+'
+}
+
+version = '20150902.1420'
+mainClassName = 'com.futurice.intra.vpn.Main'
+
+macAppBundle {
+    mainClassName = project.mainClassName
+}
+
+launch4j {
+    mainClassName = project.mainClassName
+}

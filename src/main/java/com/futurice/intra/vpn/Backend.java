@@ -3,7 +3,7 @@
  * vpnmanagement server and sends JSON back and forth.
  */
 
-package vpn;
+package com.futurice.intra.vpn;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;

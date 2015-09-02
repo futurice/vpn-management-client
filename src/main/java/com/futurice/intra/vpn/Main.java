@@ -1,7 +1,7 @@
 /**
  * 
  */
-package vpn;
+package com.futurice.intra.vpn;
 
 /**
  * @author Oskar Ehnström (oskar.ehnstrom@futurice.com)

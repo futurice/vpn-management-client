@@ -3,7 +3,7 @@
  * for them to act when needed.
  */
 
-package vpn;
+package com.futurice.intra.vpn;
 
 import java.io.File;
 import java.io.FileInputStream;

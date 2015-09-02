@@ -1,9 +1,12 @@
 .settings/
 bin/
+build/
+.gradle/
 *.key
 *.csr
 .project
 .classpath
 src/tests/
 .idea
+.iml
 settings.cfg

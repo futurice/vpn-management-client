@@ -14,7 +14,7 @@
  */
 
 
-package vpn;
+package com.futurice.intra.vpn;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,7 +42,7 @@ public class Generator {
 	private Configurator config;
 
 	/**
-	 * @param password, common name, email
+	 * @param pass, common name, email
 	 */
 	
 	public Generator(String pass, String common, String email, Configurator config){
@@ -100,16 +100,14 @@ public class Generator {
 		try {
 			String s;
 		
-			String[] cmd = {this.openssl,"genrsa", "-out", this.key,"-aes128",
-					"-passout", "pass:"+this.pass, "2048"};
-			Process p = Runtime.getRuntime()
-			.exec(cmd);
+			String[] cmd = {this.openssl,"genrsa", "-out", this.key,"-aes128", "-passout", "pass:"+this.pass, "2048"};
+			Process p = Runtime.getRuntime().exec(cmd);
 			
-			if (p.waitFor() != 0)
+			if (p.waitFor() != 0) {
 				return false;
+			}
 			
-	        BufferedReader stdErr = new BufferedReader(new 
-	                 InputStreamReader(p.getErrorStream()));
+	        BufferedReader stdErr = new BufferedReader(new  InputStreamReader(p.getErrorStream()));
 	        
 	        while ((s = stdErr.readLine()) != null){
             	System.err.println(s);
@@ -131,30 +129,25 @@ public class Generator {
 			String s;
 			File confFile = new File(Generator.conf);
 			
-			String[] cmd = {this.openssl, "req", "-new", "-key", this.key,
-					"-config", confFile.getAbsolutePath(), "-passin", "pass:"+this.pass};
+			String[] cmd = {this.openssl, "req", "-new", "-key", this.key, "-config", confFile.getAbsolutePath(), "-passin", "pass:"+this.pass};
 		
-			Process p = Runtime.getRuntime()
-			.exec(cmd);
+			Process p = Runtime.getRuntime().exec(cmd);
 			
-			
-			
-			BufferedReader stdOut = new BufferedReader(new 
-	                 InputStreamReader(p.getInputStream()));
+			BufferedReader stdOut = new BufferedReader(new InputStreamReader(p.getInputStream()));
 	        
 	        while((s=stdOut.readLine())!= null){
 	        	this.request+=s+"\n";
 	        }
 
-	        BufferedReader stdErr = new BufferedReader(new 
-	                 InputStreamReader(p.getErrorStream()));
+	        BufferedReader stdErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 	       
             if ((s = stdErr.readLine()) != null){
             	System.err.println(s);
             }
             
-            if (p.waitFor() != 0)
-				return false;
+            if (p.waitFor() != 0) {
+                return false;
+            }
 	            
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -218,31 +211,31 @@ public class Generator {
 		    final IOFileFilter fileFilter = new IOFileFilter() {
 			    @Override
 			    public boolean accept(File file) {
-				return file.getName().toLowerCase().contains(openssl+".exe");
+				    return file.getName().toLowerCase().contains(openssl+".exe");
 			    }
 			    @Override
 			    public boolean accept(File dir, String name) {
-				return name.toLowerCase().contains(openssl+".exe");
+				    return name.toLowerCase().contains(openssl+".exe");
 			    }
 			};
 
 		    final IOFileFilter dirFilter = new IOFileFilter() {
 			    @Override
 			    public boolean accept(File file) {
-				String nameLower = file.getName().toLowerCase();
-				return nameLower.contains("program files") || nameLower.contains("openvpn") || nameLower.contains("bin");
+                    String nameLower = file.getName().toLowerCase();
+                    return nameLower.contains("program files") || nameLower.contains("openvpn") || nameLower.contains("bin");
 			    }
 			    @Override
 			    public boolean accept(File dir, String name) {
-				String nameLower = name.toLowerCase();
-				return nameLower.contains("program files") || nameLower.contains("openvpn") || nameLower.contains("bin");
+                    String nameLower = name.toLowerCase();
+                    return nameLower.contains("program files") || nameLower.contains("openvpn") || nameLower.contains("bin");
 			    }
 			};
 
 		    Iterator iter =  FileUtils.iterateFiles(cDrive, fileFilter, dirFilter);
 
 		    if(!iter.hasNext()) {
-			return null;
+			    return null;
 		    }
 
 		}
