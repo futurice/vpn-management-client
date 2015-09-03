@@ -1,7 +1,6 @@
-VPN Configuration Wizard
-=================================
-Description
------------
+# VPN Configuration Wizard
+
+## Description
 
 The purpose of this Java Application is to make setting up a VPN connection easier.
 
@@ -18,12 +17,33 @@ folder. If it fails it asks the user to extract the settings manually.
 
 The backend for this applications is also open source and can be found at [GitHub](https://github.com/futurice-oss/vpn-management-server)
 
-Background
-----------
+## Build setup
+
+Install gradle 2.2 or newer.
+
+### windows
+
+Allow to run exe file as administrator, so all settings are copied to openVPN.
+
+``` gradle launch4j ```
+
+### mac
+
+``` gradle createDmg ```
+
+(alternative), possible to run without mac
+
+``` gradle createAppZip ``` will create app for osx  (with bundleJRE=false could be run also on other platforms)
+
+### linux (default)
+
+``` gradle jar ``` - will create jar file
+
+## Background
+
 This application was created to make setting up a VPN connection to the [Futurice](http://www.futurice.com) intranet easier. It was open sourced as a part of the [Summer of Love program](http://blog.futurice.com/summer-of-love-of-open-source)
 
-Classes
--------
+## Classes
 
 - Main.java
 This class starts up the application. It has no other function.
@@ -44,19 +64,18 @@ This class interacts with the back end API. It sends the csr and password
 and downloads the settings. It also tries to unzip the settings in to
 the proper folder. It interacts with the Configurator class.
 
-Supporting Libraries
---------------------
+## Supporting Libraries
 
 - Commons Codec (http://commons.apache.org/codec/)
 - JSON in Java (http://json.org/java/)
 
-Screenshots
------------
+## Screenshots
+
 ![Intro](http://i.imgur.com/5KMKPqB.png)
 ![Form](http://i.imgur.com/eqewtzf.png)
 
-About Futurice
---------------
+## About Futurice
+
 [Futurice](http://www.futurice.com) is a lean service creation company with offices in Helsinki, Tampere, Berlin and London.
 
 Peole who have contributed to VPN Configuration Wizard:
@@ -65,6 +84,6 @@ Peole who have contributed to VPN Configuration Wizard:
 - [Olli Jarva](https://github.com/ojarva)
 - [Ville Tainio](https://github.com/Wisheri)
 
-Support
--------
+## Support
+
 Pull requests and new issues are of course welcome. If you have any questions, comments or feedback you can contact us by email at sol@futurice.com. We will try to answer your questions, but we have limited manpower so please, be patient with us.
