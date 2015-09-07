@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep3SmsController">
+    <top>
+        <Label text="This is the 3rd step."></Label>
+    </top>
+
+    <center>
+
+    </center>
+
+    <bottom>
+        <HBox>
+            <Button fx:id="prevButton" mnemonicParsing="false" onAction="#buttonPrevOnAction" text="Prev" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#buttonNextOnAction" text="Next" />
+        </HBox>
+    </bottom>
+</BorderPane>

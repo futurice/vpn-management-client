@@ -61,7 +61,7 @@ public class Configurator {
 
 		// load settings
 		try {
-			this.settings.load(getClass().getResourceAsStream("settings.cfg"));
+			settings.load(this.getClass().getClassLoader().getResourceAsStream("settings.cfg"));
 		} catch (Exception e) {
 			log.error("", e);
 		}

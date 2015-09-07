@@ -2,11 +2,11 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import org.controlsfx.control.SegmentedButton?>
+
 <BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep2OptionsController"> <!--  -->
     <top>
-        <Label text="This is the Second step."></Label>
+        <Label text="Please fill out the form below."></Label>
     </top>
 
     <center>
@@ -33,15 +33,22 @@
             <PasswordField fx:id="vpnPasswordField2" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
 
             <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
-            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+            <Label fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+            <Label text="When you click next, a password will be sent to your phone." GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9"/>
+
+            <Label fx:id="serverResponse" text="" visible="false" styleClass="warningText" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="10"/>
+
+
 
         </GridPane>
     </center>
 
     <bottom>
         <HBox>
-            <Button fx:id="nextButton" mnemonicParsing="false" text="Next2" onAction="#buttonNextOnAction" />
-            <Button fx:id="prevButton" mnemonicParsing="false" text="Prev2" onAction="#buttonPrevOnAction"/>
+
+            <Button fx:id="prevButton" mnemonicParsing="false" text="Prev" onAction="#buttonPrevOnAction"/>
+            <Button fx:id="nextButton" mnemonicParsing="false" text="Next" onAction="#buttonNextOnAction" />
         </HBox>
     </bottom>
 </BorderPane>
