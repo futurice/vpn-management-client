@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.controlsfx.control.SegmentedButton?>
+<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep2OptionsController">
+    <top>
+        <Label text="This is the Second step."></Label>
+    </top>
+
+    <center>
+        <GridPane>
+            <Label text="Futurice username:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="Futurice password:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Employment status:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <SegmentedButton fx:id="employmentStatusField" GridPane.columnIndex="1" GridPane.rowIndex="3"></SegmentedButton>
+
+            <Label text="Computer owner:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <SegmentedButton fx:id="computerOwnerField" GridPane.columnIndex="1" GridPane.rowIndex="4"></SegmentedButton>
+
+            <Label text="Computer type:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <SegmentedButton fx:id="computerTypeField" GridPane.columnIndex="1" GridPane.rowIndex="5"></SegmentedButton>
+
+            <Label text="New VPN password:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <PasswordField fx:id="vpnPasswordField1" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+            <Label text="Confirm VPN password:" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+            <PasswordField fx:id="vpnPasswordField2" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+        </GridPane>
+    </center>
+
+    <bottom>
+        <HBox>
+            <Button fx:id="nextButton" mnemonicParsing="false" text="Next2" onAction="#buttonNextOnAction" />
+            <Button fx:id="prevButton" mnemonicParsing="false" text="Prev2" onAction="#buttonPrevOnAction"/>
+        </HBox>
+    </bottom>
+</BorderPane>

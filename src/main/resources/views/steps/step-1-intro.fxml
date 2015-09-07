@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep1IntroController">
+    <top>
+        <Label text="This is the first step."></Label>
+    </top>
+
+    <center>
+        <Label text="Some text" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    </center>
+
+    <bottom>
+        <HBox>
+            <Button fx:id="prevButton" mnemonicParsing="false" onAction="#buttonPrevOnAction" text="Prev" visible="false" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#buttonNextOnAction" text="Next" />
+        </HBox>
+    </bottom>
+</BorderPane>
+

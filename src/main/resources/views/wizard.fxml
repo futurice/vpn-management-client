@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1">
+
+    <BorderPane fx:id="topLayoutBorderPane" stylesheets="@../futurice-theme.css">
+        <top>
+            <!-- views.steps -->
+            <fx:include source="top-guide.fxml" />
+        </top>
+
+        <center>
+            <!-- <Pane fx:id="contentPane" prefHeight="505.0" prefWidth="800.0" /> -->
+        </center>
+
+        <bottom>
+            <Label text="Futurice 2015"></Label>
+        </bottom>
+    </BorderPane>
+
+</fx:root>

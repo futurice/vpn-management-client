@@ -5,6 +5,8 @@
 
 package com.futurice.intra.vpn;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,6 +15,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.Properties;
 
+@Slf4j
 public class Configurator {
 
 	public static int CONFIG_DIR_DOES_NOT_EXIST = 1;
@@ -60,7 +63,7 @@ public class Configurator {
 		try {
 			this.settings.load(getClass().getResourceAsStream("settings.cfg"));
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error("", e);
 		}
 
 		// Try to figure out the OS
@@ -91,9 +94,9 @@ public class Configurator {
 	 */
         public void startTunnelblick() {
 	    try {
-		Runtime.getRuntime().exec(new String[] { "open", "/Applications/Tunnelblick.app" });
+			Runtime.getRuntime().exec(new String[] { "open", "/Applications/Tunnelblick.app" });
 	    } catch (Exception e) {
-		System.out.println(e.getMessage());
+			log.error("", e);
 	    }
 	}
 
@@ -277,7 +280,7 @@ public class Configurator {
 			}
 
 		} else {
-			System.err.println("Configuration directory did not exist.");
+			log.error("Configuration directory did not exist.");
 			return CONFIG_DIR_DOES_NOT_EXIST;
 		}
 	}
