@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import org.controlsfx.control.SegmentedButton?>
-<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep2OptionsController">
+<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep2OptionsController"> <!--  -->
     <top>
         <Label text="This is the Second step."></Label>
     </top>

@@ -7,12 +7,12 @@
 
     <BorderPane fx:id="topLayoutBorderPane" stylesheets="@../futurice-theme.css">
         <top>
-            <!-- views.steps -->
+            <!-- steps guide -->
             <fx:include source="top-guide.fxml" />
         </top>
 
         <center>
-            <!-- <Pane fx:id="contentPane" prefHeight="505.0" prefWidth="800.0" /> -->
+            <!-- content will contain steps loaded through controller -->
         </center>
 
         <bottom>

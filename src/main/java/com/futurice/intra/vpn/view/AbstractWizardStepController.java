@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
  */
 abstract public class AbstractWizardStepController extends Pane {
 
-    private WizardController parent;
+    private WizardController wizard;
 
     @FXML
     private Button nextButton;
@@ -20,18 +20,23 @@ abstract public class AbstractWizardStepController extends Pane {
     @FXML
     private Button prevButton;
 
-    public void setParent(WizardController parent) {
-        this.parent = parent;
+    public void init(WizardController wizard) {
+        this.wizard = wizard;
+        configureView();
     }
 
     @FXML
     private void buttonNextOnAction(ActionEvent event) {
-        parent.next();
+        wizard.next();
     }
 
     @FXML
     private void buttonPrevOnAction(ActionEvent event) {
-        parent.prev();
+        wizard.prev();
+    }
+
+    protected void configureView() {
+
     }
 
 

@@ -63,7 +63,7 @@ public class WizardController extends VBox{
         try {
             FXMLLoader load = new FXMLLoader(getClass().getResource(fxmlPath));
             contentPane = load.load();
-            ((AbstractWizardStepController)load.getController()).setParent(this);
+            ((AbstractWizardStepController)load.getController()).init(this);
         } catch (IOException e) {
             log.error("load step failed", e);
             throw new RuntimeException(e);
@@ -77,6 +77,7 @@ public class WizardController extends VBox{
         switch (curStep) {
             case STEP_1_INTRO: {
                 loadStep(STEP_FXML_2_OPTIONS);
+
                 break;
             }
             case STEP_2_OPTIONS: {

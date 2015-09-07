@@ -23,7 +23,7 @@ public class Main extends Application {
 	 */
 	public static void main(String[] args) {
 
-		Configurator conf = new Configurator();
+		//Configurator conf = new Configurator();
 		//conf.gui();
 
 		launch();

@@ -1,12 +1,13 @@
 package com.futurice.intra.vpn.view;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.SegmentedButton;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -14,7 +15,7 @@ import java.util.Properties;
  * Created by konstantin.petrukhnov@futurice.com on 2015-09-04.
  */
 @Slf4j
-public class WizardStep2OptionsController  extends AbstractWizardStepController {
+public class WizardStep2OptionsController extends AbstractWizardStepController {
 
     @FXML
     private TextField usernameField;
@@ -49,27 +50,24 @@ public class WizardStep2OptionsController  extends AbstractWizardStepController 
     private Properties settings = new Properties();
 
 
-    public WizardStep2OptionsController() {
-
+    @Override
+    protected void configureView() {
         //load settings
         try {
-            settings.load(this.getClass().getResourceAsStream("settings.cfg"));
+            settings.load(this.getClass().getClassLoader().getResourceAsStream("settings.cfg"));
         } catch (IOException e) {
             log.error("load settings failed", e);
         }
 
-        //dynamic toggle buttons
-        // Initialize options
-
+        //  dynamic toggle buttons
+        //initialize options
         this.employmentOptions = settings.getProperty("EMPLOYMENT_OPTIONS").split(",");
         this.computerOptions = settings.getProperty("COMPUTER_OPTIONS").split(",");
         this.ownerOptions = settings.getProperty("OWNER_OPTIONS").split(",");
-
+        //create buttons
         addSegmentedButtons(this.employmentOptions, employmentStatusField);
         addSegmentedButtons(this.computerOptions, computerTypeField);
         addSegmentedButtons(this.ownerOptions, computerOwnerField);
-
-
     }
 
     private void addSegmentedButtons( String[] values, SegmentedButton destination) {
@@ -77,6 +75,7 @@ public class WizardStep2OptionsController  extends AbstractWizardStepController 
             ToggleButton b = new ToggleButton(val);
             destination.getButtons().add(b);
         }
+        destination.getButtons().get(0).setSelected(true);
     }
 
 }

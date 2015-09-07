@@ -10,9 +10,9 @@ COMPUTER_LABEL = Computer type:
 OWNER_LABEL = Computer owner:
 
 # NOTE: remove all extra spaces after commas
-EMPLOYMENT_OPTIONS = Choose one.,Employee,External
-COMPUTER_OPTIONS = Choose one.,Laptop,Desktop
-OWNER_OPTIONS = Choose one.,Company,Home
+EMPLOYMENT_OPTIONS = Employee,External
+COMPUTER_OPTIONS = Laptop,Desktop
+OWNER_OPTIONS = Company,Home
 
 # Email settings
 DOMAIN = company.com
