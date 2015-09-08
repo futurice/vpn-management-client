@@ -2,7 +2,3 @@
 .warningField {
     -fx-background-color: pink;
 }
-
-.warningText {
-    -fx-fill: darkred;
-}

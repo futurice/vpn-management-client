@@ -350,7 +350,7 @@ public class Configurator {
 
 			zipInStream.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("failed to save file", e);
 			return false;
 		}
 

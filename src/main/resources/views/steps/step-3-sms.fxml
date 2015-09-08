@@ -10,7 +10,13 @@
     </top>
 
     <center>
-
+        <VBox>
+            <Label text="Please enter code that you received by SMS: "/>
+            <PasswordField fx:id="smsField"/>
+            <Label fx:id="serverResponse" text="" visible="false" textFill="darkred" />
+            <Label fx:id="progressBarLabel" visible="false" text="Sending data to server: " GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+            <ProgressBar fx:id="progressBar" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+        </VBox>
     </center>
 
     <bottom>

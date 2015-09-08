@@ -1,10 +1,12 @@
 package com.futurice.intra.vpn.view;
 
 import com.futurice.intra.vpn.vendor.SegmentableButton;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.controlsfx.control.SegmentedButton;
@@ -41,6 +43,12 @@ public class WizardStep2OptionsController extends AbstractWizardStepController {
 
     @FXML
     private Label emailField;
+
+    @FXML
+    private Label progressBarLabel;
+
+    @FXML
+    private ProgressBar progressBar;
 
     @FXML
     private Label serverResponse;
@@ -151,6 +159,12 @@ public class WizardStep2OptionsController extends AbstractWizardStepController {
         serverResponse.setVisible(false);
         //validate all
         if (validateUser() & validatePass() & validateVpnPass()) {
+
+            //TODO draw some animation
+            //progressBarLabel.setVisible(true);
+            //progressBar.setVisible(true);
+
+            //send request
             String result = config.askForSettings(
                     usernameField.getText(),
                     passwordField.getText(),
@@ -173,43 +187,6 @@ public class WizardStep2OptionsController extends AbstractWizardStepController {
             return false;
         }
 
-
-
-
-
     }
 
-    /**
-     * Check that the values in the form are not empty
-     */
-    /*public void checkForm() {
-        this.updateValues();
-        if (this.owner != null
-                && !this.owner.isEmpty()
-                && this.employmentStatus != null
-                && !this.employmentStatus.isEmpty()
-                && this.computerType != null
-                && !this.computerType.isEmpty()
-                && this.ldapUser != null
-                && !this.ldapUser.isEmpty()
-                && this.ldapPassword != null
-                && !this.ldapPassword.isEmpty()
-                && this.vpnPassword != null
-                && !this.vpnPassword.isEmpty()
-                && this.email != null
-                && !this.email.isEmpty()
-                && this.vpnPassword.equals(String
-                .copyValueOf(this.vpnPassField2.getPassword()))) {
-            this.nextButton.setEnabled(true);
-            this.hint.setText("");
-        } else {
-            if (!this.vpnPassword.equals(String
-                    .copyValueOf(this.vpnPassField2.getPassword()))){
-                this.hint.setText("Make sure the VPN passwords are identical.");
-            } else {
-                this.hint.setText("");
-            }
-            this.nextButton.setEnabled(false);
-        }
-    }*/
 }

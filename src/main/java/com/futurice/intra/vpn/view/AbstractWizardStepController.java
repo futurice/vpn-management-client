@@ -6,8 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-import java.util.Properties;
-
 /**
  * Step template
  *
@@ -27,6 +25,7 @@ abstract public class AbstractWizardStepController extends Pane {
     public void init(WizardController wizard, Configurator config) {
         this.wizard = wizard;
         this.config = config;
+
         configureView();
     }
 
@@ -48,9 +47,12 @@ abstract public class AbstractWizardStepController extends Pane {
 
     }
 
-
     protected boolean verifyInput() {
         return true;
+    }
+
+    public void onShow() {
+
     }
 
 

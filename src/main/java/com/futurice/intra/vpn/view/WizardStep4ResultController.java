@@ -10,6 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WizardStep4ResultController extends AbstractWizardStepController {
 
+    @FXML
+    private Label resultText;
+
+    @Override
+    public void onShow() {
+        resultText.setText(config.getFinishingText());
+    }
 
 }
 
