@@ -11,4 +11,4 @@ src/tests/
 .iml
 settings.cfg
 settings.zip
-
+/.nb-gradle/
