@@ -10,3 +10,4 @@ src/tests/
 .idea
 .iml
 settings.cfg
+/.nb-gradle/

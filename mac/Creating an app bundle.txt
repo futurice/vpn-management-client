@@ -1,6 +1,0 @@
-To make the .jar application have more of a Mac OS X Look and Feel
-we use the Jar Bundler that can be found in the /usr/share/Java/Tools
-folder in OS X.
-
-You need to Choose the jar in the "Options for Main". Leave the default value for the Main Class
-that appears after you have selected the jar.

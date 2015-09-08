@@ -15,7 +15,7 @@ dependencies {
     testCompile 'junit:junit:4+'
 }
 
-version = '20150903.1215'
+version = '20150908.1415'
 mainClassName = 'com.futurice.intra.vpn.Main'
 
 macAppBundle {
@@ -24,4 +24,13 @@ macAppBundle {
 
 launch4j {
     mainClassName = project.mainClassName
+}
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest {
+        attributes(
+                'Implementation-Version': project.version,
+                'Main-Class': project.mainClassName)
+    }
 }
