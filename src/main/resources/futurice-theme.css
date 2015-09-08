@@ -2,3 +2,15 @@
 .warningField {
     -fx-background-color: pink;
 }
+
+.navButtons {
+    -fx-alignment: right;
+    -fx-padding: 20px;
+}
+
+BorderPane {
+    -fx-border-color: blue;
+    -fx-border-insets: 5;
+    -fx-border-width: 3;
+    -fx-border-style: dashed;
+}

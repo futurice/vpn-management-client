@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	private Stage primaryStage;
-	private BorderPane rootLayout;
 
 	/**
 	 * @param args
@@ -39,8 +38,11 @@ public class Main extends Application {
 
 		WizardController wizardController = new WizardController();
 		primaryStage.setScene(new Scene(wizardController));
-		primaryStage.setWidth(960);
+		primaryStage.setWidth(540);
 		primaryStage.setHeight(540);
+		primaryStage.setMinHeight(540);
+		primaryStage.setMinWidth(540);
+
 		primaryStage.show();
 
 	}

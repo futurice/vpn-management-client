@@ -25,9 +25,11 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Properties;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 
+@Slf4j
 public class Generator {
 	
 	String pass;
@@ -82,7 +84,7 @@ public class Generator {
 		//Deleting the temporary config file used by openssl
 		File confFile = new File(Generator.conf);
 		if (!confFile.delete())
-			System.err.println("Temporary config file ("+Generator.conf+") was not deleted. Please delete it manually.");
+			log.warn("Temporary config file ([]) was not deleted. Please delete it manually.", Generator.conf);
 		
 		return this.request;
 	}
@@ -110,11 +112,11 @@ public class Generator {
 	        BufferedReader stdErr = new BufferedReader(new  InputStreamReader(p.getErrorStream()));
 	        
 	        while ((s = stdErr.readLine()) != null){
-            	System.err.println(s);
+				log.warn(s);
             }
 	            
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("", e);
 			return false;
 		}
 		return true;
@@ -142,7 +144,7 @@ public class Generator {
 	        BufferedReader stdErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 	       
             if ((s = stdErr.readLine()) != null){
-            	System.err.println(s);
+				log.warn(s);
             }
             
             if (p.waitFor() != 0) {
@@ -150,7 +152,7 @@ public class Generator {
             }
 	            
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("", e);
 			return false;
 		}
 		return true;
@@ -166,7 +168,7 @@ public class Generator {
 		try {
 			fw = new FileWriter(Generator.conf);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("", e);
 			return false;
 		}
 
@@ -189,7 +191,7 @@ public class Generator {
 				return true;
 
 			} catch (IOException io) {
-				io.printStackTrace();
+				log.error("", io);
 				return false;
 			}
 		}

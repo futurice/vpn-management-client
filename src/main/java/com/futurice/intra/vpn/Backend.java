@@ -19,10 +19,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 import org.apache.commons.codec.binary.*;
 
+@Slf4j
 public class Backend {
 
 	private String user;
@@ -159,14 +161,14 @@ public class Backend {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Could not download settings.",e);
 			return "Could not download settings.";
 		} finally {
 			try {
 				is.close();
 				os.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+                log.error("Could not close the connection.",e);
 				return "Could not close the connection.";
 			}
 		}
@@ -191,7 +193,7 @@ public class Backend {
 			postParameters = URLEncoder.encode(fieldname, "UTF-8") + "="
 					+ URLEncoder.encode(value, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
+            log.error("UnsupportedEncodingException.", e1);
 			return null;
 		}
 		String response = "";
@@ -238,7 +240,7 @@ public class Backend {
 			}
 			this.config.setStatus("Connection closed.");
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("" ,e);
 			return null;
 		}
 		return response;

@@ -6,15 +6,15 @@
 
 <BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep1IntroController">
     <top>
-        <Label text="This is the first step."></Label>
+        <Label text="This is the first step." />
     </top>
 
     <center>
-        <Label fx:id="introTextLabel"/>
+        <Label fx:id="introTextLabel" alignment="CENTER"/>
     </center>
 
     <bottom>
-        <HBox>
+        <HBox styleClass="navButtons">
             <Button fx:id="prevButton" mnemonicParsing="false" onAction="#buttonPrevOnAction" text="Prev" visible="false" />
             <Button fx:id="nextButton" mnemonicParsing="false" onAction="#buttonNextOnAction" text="Next" />
         </HBox>

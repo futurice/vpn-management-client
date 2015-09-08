@@ -3,9 +3,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1" maxHeight="Infinity" maxWidth="Infinity" prefHeight="Infinity" prefWidth="Infinity">
 
-    <BorderPane fx:id="rootLayoutBorderPane" stylesheets="@../futurice-theme.css">
+    <BorderPane fx:id="rootLayoutBorderPane" stylesheets="@../futurice-theme.css" maxHeight="Infinity" maxWidth="Infinity">
         <top>
 
         </top>

@@ -1,6 +1,7 @@
 package com.futurice.intra.vpn.view;
 
 import com.futurice.intra.vpn.vendor.SegmentableButton;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,6 +53,10 @@ public class WizardStep2OptionsController extends AbstractWizardStepController {
 
     @FXML
     private Label serverResponse;
+
+    private final static int STATE_USER_INPUT = 0;
+    private final static int STATE_SENDING_DATA = 1;
+    private int curState = 0;
 
 
     // The options to choose from
@@ -160,33 +165,59 @@ public class WizardStep2OptionsController extends AbstractWizardStepController {
         //validate all
         if (validateUser() & validatePass() & validateVpnPass()) {
 
-            //TODO draw some animation
-            //progressBarLabel.setVisible(true);
-            //progressBar.setVisible(true);
+            Thread send = new Thread() {
+                public void run() {
+                    String response = config.askForSettings(
+                            usernameField.getText(),
+                            passwordField.getText(),
+                            vpnPasswordField1.getText(),
+                            (String) computerTypeField.getToggleGroup().getSelectedToggle().getUserData(),
+                            emailField.getText(),
+                            (String) computerOwnerField.getToggleGroup().getSelectedToggle().getUserData(),
+                            (String) employmentStatusField.getToggleGroup().getSelectedToggle().getUserData()
+                    );
 
-            //send request
-            String result = config.askForSettings(
-                    usernameField.getText(),
-                    passwordField.getText(),
-                    vpnPasswordField1.getText(),
-                    (String)computerTypeField.getToggleGroup().getSelectedToggle().getUserData(),
-                    emailField.getText(),
-                    (String)computerOwnerField.getToggleGroup().getSelectedToggle().getUserData(),
-                    (String)employmentStatusField.getToggleGroup().getSelectedToggle().getUserData()
-            );
-            if(result == null) {
-                return true;
-            } else {
-                serverResponse.setVisible(true);
-                serverResponse.setText("There was an error when sending the information:\n" + result);
-                return false;
-            }
+                    curState = STATE_USER_INPUT;
+                    if (response != null) {
+                        //show error to user
+                        serverResponse.setVisible(true);
+                        serverResponse.setText("There was an error when sending the information:\n" + response);
+                    } else {
+                        Platform.runLater(() -> {
+                            wizard.next();
+                        });
+                        curState = STATE_USER_INPUT;
+                    }
+                }
+            };
+            send.start();
+
+            Thread statusUpdates = new Thread(){
+                public void run(){
+                    progressBarLabel.setVisible(true);
+                    progressBar.setVisible(true);
+                    while(curState == STATE_SENDING_DATA){
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            log.error("thread interrupted", e);
+                        }
+                    }
+                    //hide
+                    progressBarLabel.setVisible(false);
+                    progressBar.setVisible(false);
+                }
+            };
+            statusUpdates.start();
+
         } else {
             serverResponse.setVisible(true);
             serverResponse.setText("Some fields are invalid.");
-            return false;
         }
 
+        return false;
+
     }
+
 
 }

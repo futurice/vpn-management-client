@@ -10,7 +10,7 @@
     </top>
 
     <center>
-        <Label fx:id="resultText" text=""></Label>
+        <Label fx:id="resultText" text="" alignment="CENTER"></Label>
     </center>
 
     <bottom>

@@ -10,7 +10,7 @@
     </top>
 
     <center>
-        <VBox>
+        <VBox alignment="CENTER">
             <Label text="Please enter code that you received by SMS: "/>
             <PasswordField fx:id="smsField"/>
             <Label fx:id="serverResponse" text="" visible="false" textFill="darkred" />

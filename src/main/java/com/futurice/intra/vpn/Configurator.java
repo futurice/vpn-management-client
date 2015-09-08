@@ -361,7 +361,7 @@ public class Configurator {
 	public String getIntroText() {
 		String text = "Welcome to the " + this.getSettings("TITLE") + ".\n"
 				+ "\nYou will now be guided through the process of setting up a VPN"
-				+ " connection to the " + this.getSettings("ORGANIZATION_NAME") + " intranet.\n"
+				+ " connection \n to the " + this.getSettings("ORGANIZATION_NAME") + " intranet.\n"
 				+ "\nYou appear to be running "
 				+ osNames[this.os]
 				+ ", and your username is "
