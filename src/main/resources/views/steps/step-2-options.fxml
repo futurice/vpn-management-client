@@ -35,12 +35,12 @@
             <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
             <Label fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 
-            <Label text="When you click next, a password will be sent to your phone." wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9"/>
+            <Label text="When you click next, a password will be sent to your phone." wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="9"/>
 
             <Label fx:id="progressBarLabel" visible="false" text="Sending data to server: " GridPane.columnIndex="0" GridPane.rowIndex="10"/>
             <ProgressBar fx:id="progressBar" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="10" />
 
-            <Label fx:id="serverResponse" text="" visible="false" textFill="darkred" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="11"/>
+            <Label fx:id="serverResponse" text="" visible="false" textFill="darkred" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="10"/>
 
 
 

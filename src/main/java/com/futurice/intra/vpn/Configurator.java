@@ -360,9 +360,9 @@ public class Configurator {
 
 	public String getIntroText() {
 		String text = "Welcome to the " + this.getSettings("TITLE") + ".\n"
-				+ "\nYou will now be guided through the process of setting up a VPN"
-				+ " connection \n to the " + this.getSettings("ORGANIZATION_NAME") + " intranet.\n"
-				+ "\nYou appear to be running "
+				+ "You will now be guided through the process of setting up a VPN"
+				+ " connection to the " + this.getSettings("ORGANIZATION_NAME") + " intranet.\n"
+				+ "You appear to be running "
 				+ osNames[this.os]
 				+ ", and your username is "
 				+ this.user
@@ -395,8 +395,8 @@ public class Configurator {
 	public String getFinishingText() {
 		String text="";
 		if (this.os == OSX) {
-			text += "\nTo start a VPN connection, open Tunnelblick, \nclick the icon in the"
-					+ " notification area \nand choose the futurice vpn connection.";
+			text += "\nTo start a VPN connection, open Tunnelblick, click the icon in the"
+					+ " notification area and choose the futurice vpn connection.";
 		} else if (this.os == LINUX){
 			text += "\n\nPlease not that you have to change the paths in the .conf file" +
 					" to match your system.";
