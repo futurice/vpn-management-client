@@ -24,6 +24,17 @@ BorderPane {
     -fx-padding: 5;
 }
 
+GridPane {
+    -fx-hgap: 3;
+    -fx-vgap: 5;
+}
+
 /*.label {
     -fx-wrap-text: true;
 }*/
+
+
+.step3vbox {
+    -fx-padding: 5;
+    -fx-spacing: 5;
+}

@@ -44,9 +44,11 @@ public class WizardStep3SmsController extends AbstractWizardStepController {
                 String response = config.enterPassword(smsField.getText());
                 curState = STATE_USER_INPUT;
                 if (response != null) {
-                    //show error to user
-                    serverResponse.setText("There was an error when sending the information:\n" + response);
-                    serverResponse.setVisible(true);
+                    Platform.runLater(() -> {
+                        //show error to user
+                        serverResponse.setText("There was an error when sending the information:\n" + response);
+                        serverResponse.setVisible(true);
+                    });
                 } else {
                     Platform.runLater(() -> {
                         wizard.next();

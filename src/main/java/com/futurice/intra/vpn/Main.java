@@ -45,8 +45,8 @@ public class Main extends Application {
 		WizardController wizardController = new WizardController();
 		primaryStage.setScene(new Scene(wizardController));
 		primaryStage.setWidth(540);
-		primaryStage.setHeight(540);
-		primaryStage.setMinHeight(540);
+		primaryStage.setHeight(600);
+		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(540);
 
 		//close confirmation
