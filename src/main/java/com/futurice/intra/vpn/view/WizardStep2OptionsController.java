@@ -165,33 +165,7 @@ public class WizardStep2OptionsController extends AbstractWizardStepController {
         //validate all
         if (validateUser() & validatePass() & validateVpnPass()) {
 
-            Thread send = new Thread() {
-                public void run() {
-                    String response = config.askForSettings(
-                            usernameField.getText(),
-                            passwordField.getText(),
-                            vpnPasswordField1.getText(),
-                            (String) computerTypeField.getToggleGroup().getSelectedToggle().getUserData(),
-                            emailField.getText(),
-                            (String) computerOwnerField.getToggleGroup().getSelectedToggle().getUserData(),
-                            (String) employmentStatusField.getToggleGroup().getSelectedToggle().getUserData()
-                    );
-
-                    curState = STATE_USER_INPUT;
-                    if (response != null) {
-                        //show error to user
-                        serverResponse.setVisible(true);
-                        serverResponse.setText("There was an error when sending the information:\n" + response);
-                    } else {
-                        Platform.runLater(() -> {
-                            wizard.next();
-                        });
-                        curState = STATE_USER_INPUT;
-                    }
-                }
-            };
-            send.start();
-
+            curState = STATE_SENDING_DATA;
             Thread statusUpdates = new Thread(){
                 public void run(){
                     progressBarLabel.setVisible(true);
@@ -209,6 +183,34 @@ public class WizardStep2OptionsController extends AbstractWizardStepController {
                 }
             };
             statusUpdates.start();
+
+            Thread send = new Thread() {
+                public void run() {
+                    String response = config.askForSettings(
+                            usernameField.getText(),
+                            passwordField.getText(),
+                            vpnPasswordField1.getText(),
+                            (String) computerTypeField.getToggleGroup().getSelectedToggle().getUserData(),
+                            emailField.getText(),
+                            (String) computerOwnerField.getToggleGroup().getSelectedToggle().getUserData(),
+                            (String) employmentStatusField.getToggleGroup().getSelectedToggle().getUserData()
+                    );
+
+                    curState = STATE_USER_INPUT;
+                    if (response != null) {
+                        //show error to user
+                        Platform.runLater(() -> {
+                            serverResponse.setVisible(true);
+                            serverResponse.setText("There was an error when sending the information:\n" + response);
+                        });
+                    } else {
+                        Platform.runLater(() -> {
+                            wizard.next();
+                        });
+                    }
+                }
+            };
+            send.start();
 
         } else {
             serverResponse.setVisible(true);

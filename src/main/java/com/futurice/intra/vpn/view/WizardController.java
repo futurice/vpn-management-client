@@ -34,20 +34,8 @@ public class WizardController extends VBox{
     public final static String STEP_FXML_3_SMS = STEP_FXML_PATH + "step-3-sms.fxml";
     public final static String STEP_FXML_4_RESULT = STEP_FXML_PATH + "step-4-result.fxml";
 
-    //private Pane contentPane;
-
     private ArrayList<Pane> stepPanes = new ArrayList<>();
     private ArrayList<AbstractWizardStepController> stepControllers = new ArrayList<>();
-
-    /*private Pane contentPaneStep1;
-    private Pane contentPaneStep2;
-    private Pane contentPaneStep3;
-    private Pane contentPaneStep4;
-
-    private AbstractWizardStepController contentPaneStep1Controller;
-    private AbstractWizardStepController contentPaneStep2Controller;
-    private AbstractWizardStepController contentPaneStep3Controller;
-    private AbstractWizardStepController contentPaneStep4Controller;*/
 
 
     @FXML
@@ -61,10 +49,7 @@ public class WizardController extends VBox{
         fxmlLoader.setController(this);
 
         try {
-            //loadStep(STEP_FXML_1_INTRO);
             fxmlLoader.load();
-
-            //rootLayoutBorderPane.setCenter(contentPane);
 
         } catch (IOException e) {
             log.error("view failed", e);
@@ -81,25 +66,8 @@ public class WizardController extends VBox{
         loadStep(STEP_FXML_3_SMS);
         loadStep(STEP_FXML_4_RESULT);
 
-        //contentPane = contentPaneStep1;
         rootLayoutBorderPane.setCenter(stepPanes.get(STEP_1_INTRO));
     }
-
-    /**
-     * Load fxml into content pane
-     * @param fxmlPath
-     */
-    /*private Pane loadStep(String fxmlPath) {
-        try {
-            FXMLLoader load = new FXMLLoader(getClass().getResource(fxmlPath));
-            Pane pane = load.load();
-            ((AbstractWizardStepController)load.getController()).init(this, config);
-            return pane;
-        } catch (IOException e) {
-            log.error("load step failed", e);
-            throw new RuntimeException(e);
-        }
-    }*/
 
     /**
      * Load fxml into content pane and add pane and controllers to lists
@@ -132,28 +100,6 @@ public class WizardController extends VBox{
         } else {
             Platform.exit();
         }
-
-
-        /*witch (curStep) {
-            case STEP_1_INTRO: {
-                rootLayoutBorderPane.setCenter(contentPaneStep2);
-                break;
-            }
-            case STEP_2_OPTIONS: {
-                rootLayoutBorderPane.setCenter(contentPaneStep3);
-                break;
-            }
-            case STEP_3_SMS: {
-                rootLayoutBorderPane.setCenter(contentPaneStep4);
-                break;
-            }
-            case STEP_4_RESULT: {
-                //exit app
-                Platform.exit();
-                break;
-            }
-        }
-        curStep++;*/
     }
 
     /**
@@ -169,22 +115,6 @@ public class WizardController extends VBox{
         } else {
             //todo: do wizard reset?
         }
-
-        /*switch (curStep) {
-            case STEP_2_OPTIONS: {
-                rootLayoutBorderPane.setCenter(contentPaneStep1);
-                break;
-            }
-            case STEP_3_SMS: {
-                rootLayoutBorderPane.setCenter(contentPaneStep2);
-                break;
-            }
-            case STEP_4_RESULT: {
-                rootLayoutBorderPane.setCenter(contentPaneStep3);
-                break;
-            }
-        }
-        curStep--;*/
     }
 
 }
