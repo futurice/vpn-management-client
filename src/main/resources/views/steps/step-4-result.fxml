@@ -4,17 +4,19 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep4ResultController">
+<BorderPane styleClass="stepPane"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep4ResultController">
     <top>
-        <Label text="This is the 4th step."></Label>
+        <Label styleClass="header" text="Please read text below. Step 4/4."></Label>
     </top>
 
     <center>
-        <Label fx:id="resultText" text="" alignment="CENTER"></Label>
+        <VBox alignment="TOP_CENTER">
+            <Label fx:id="resultText" text="" wrapText="true"></Label>
+        </VBox>
     </center>
 
     <bottom>
-        <HBox>
+        <HBox styleClass="navButtons">
             <Button fx:id="prevButton" mnemonicParsing="false" onAction="#buttonPrevOnAction" text="Prev" />
             <Button fx:id="nextButton" mnemonicParsing="false" onAction="#buttonNextOnAction" text="Close" />
         </HBox>

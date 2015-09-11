@@ -3,14 +3,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1" maxHeight="Infinity" maxWidth="Infinity" prefHeight="Infinity" prefWidth="Infinity">
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1">
 
-    <BorderPane fx:id="rootLayoutBorderPane" stylesheets="@../futurice-theme.css" maxHeight="Infinity" maxWidth="Infinity">
+    <BorderPane fx:id="rootLayoutBorderPane" stylesheets="@../futurice-theme.css" prefHeight="600" prefWidth="600">
         <top>
 
         </top>
 
-        <center>
+        <center >
             <!-- content will contain steps loaded through controller -->
         </center>
 

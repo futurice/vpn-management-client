@@ -4,13 +4,13 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.SegmentedButton?>
 
-<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep2OptionsController"> <!--  -->
+<BorderPane styleClass="stepPane"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep2OptionsController"> <!--  -->
     <top>
-        <Label text="Please fill out the form below."></Label>
+        <Label styleClass="header" text="Please fill out the form below. Step 2/4."></Label>
     </top>
 
     <center>
-        <GridPane alignment="CENTER">
+        <GridPane alignment="TOP_CENTER">
             <Label text="Futurice username:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
             <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
@@ -48,8 +48,7 @@
     </center>
 
     <bottom>
-        <HBox>
-
+        <HBox  styleClass="navButtons">
             <Button fx:id="prevButton" mnemonicParsing="false" text="Prev" onAction="#buttonPrevOnAction"/>
             <Button fx:id="nextButton" mnemonicParsing="false" text="Next" onAction="#buttonNextOnAction" />
         </HBox>

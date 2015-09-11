@@ -4,23 +4,23 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep3SmsController">
+<BorderPane styleClass="stepPane"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep3SmsController">
     <top>
-        <Label text="This is the 3rd step."></Label>
+        <Label styleClass="header" text="Verify new settings by SMS. Step 3/4."></Label>
     </top>
 
     <center>
-        <VBox alignment="CENTER">
+        <VBox alignment="TOP_CENTER">
             <Label text="Please enter code that you received by SMS: "/>
             <PasswordField fx:id="smsField"/>
             <Label fx:id="serverResponse" text="" visible="false" textFill="darkred" />
-            <Label fx:id="progressBarLabel" visible="false" text="Sending data to server: " GridPane.columnIndex="0" GridPane.rowIndex="10"/>
-            <ProgressBar fx:id="progressBar" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <Label fx:id="progressBarLabel" visible="false" text="Sending data to server: "/>
+            <ProgressBar fx:id="progressBar" visible="false" GridPane.columnIndex="1" />
         </VBox>
     </center>
 
     <bottom>
-        <HBox>
+        <HBox styleClass="navButtons">
             <Button fx:id="prevButton" mnemonicParsing="false" onAction="#buttonPrevOnAction" text="Prev" />
             <Button fx:id="nextButton" mnemonicParsing="false" onAction="#buttonNextOnAction" text="Next" />
         </HBox>

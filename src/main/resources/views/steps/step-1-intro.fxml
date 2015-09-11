@@ -4,13 +4,16 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep1IntroController">
+<BorderPane styleClass="stepPane"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futurice.intra.vpn.view.WizardStep1IntroController">
     <top>
-        <Label text="This is the first step." />
+        <Label styleClass="header" text="Account verification. Step 1/4." />
     </top>
 
     <center>
-        <Label fx:id="introTextLabel" alignment="CENTER"/>
+        <VBox alignment="TOP_CENTER">
+            <Label fx:id="introTextLabel" wrapText="true"/>
+        </VBox>
+
     </center>
 
     <bottom>

@@ -4,13 +4,26 @@
 }
 
 .navButtons {
-    -fx-alignment: right;
-    -fx-padding: 20px;
+    -fx-padding: 5;
+    -fx-spacing: 10;
+    -fx-border-style: solid;
+    -fx-border-width: 1 0 1 0;
+    -fx-border-color: gray;
+    -fx-alignment: bottom-right;
+}
+
+.header {
+    -fx-padding: 5;
+}
+
+.stepPane {
+    -fx-font-size: 120%;
 }
 
 BorderPane {
-    -fx-border-color: blue;
-    -fx-border-insets: 5;
-    -fx-border-width: 3;
-    -fx-border-style: dashed;
+    -fx-padding: 5;
 }
+
+/*.label {
+    -fx-wrap-text: true;
+}*/
