@@ -23,7 +23,7 @@ dependencies {
     testCompile 'junit:junit:4+'
 }
 
-version = '20150911.1045'
+version = '20160204.1200'
 mainClassName = 'com.futurice.intra.vpn.Main'
 
 macAppBundle {
