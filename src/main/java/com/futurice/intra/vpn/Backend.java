@@ -57,10 +57,11 @@ public class Backend {
 
 		String response = this.send(urlString, "csr", csr);
 
-		if (response == null)
+		if (response == null) {
 			return "The connection to the server failed." +
 					"\nCheck your username and password and make" +
 					"\nsure you're connected to the Internet.";
+		}
 
 		// Try to parse the response
 		try {
@@ -89,8 +90,9 @@ public class Backend {
 				this.config.getSettings("API_BASE_URL") + "/api/post_verification",
 				"password", password);
 
-		if (response == null)
+		if (response == null) {
 			return "The connection to the server failed.";
+		}
 
 		// Try to parse the response
 		try {

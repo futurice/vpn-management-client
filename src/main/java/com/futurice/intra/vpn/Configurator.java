@@ -358,17 +358,23 @@ public class Configurator {
 		return true;
 	}
 
+	public String getIntroUrl() {
+		return this.getSettings("WIZARD_STEP_1_URL");
+	}
+
+
+	public String getIntroNote() {
+		return "\nNote: This wizard will create configurations for Berlin & Helsinki. " +
+				"For London and Tampere we are already using a new system, see instructions for OpenVPN to new firewalls in Confluence.\n";
+	}
+
+
 	public String getIntroText() {
 		String text = "Welcome to the " + this.getSettings("TITLE") + ".\n"
-				+ "You will now be guided through the process of setting up a VPN"
-				+ " connection to the " + this.getSettings("ORGANIZATION_NAME") + " intranet.\n"
-				+ "You appear to be running "
-				+ osNames[this.os]
-				+ ", and your username is "
-				+ this.user
-				+ ".\n"
-				+ "If this is not correct, please set up the VPN manually as shown"
-				+ " in confluence.";
+				+ "\nYou will now be guided through the process of setting up a VPN"
+				+ " connection to the " + this.getSettings("ORGANIZATION_NAME") + " intranet in Berlin and Helsinki."
+				+ "\nYou appear to be running " + osNames[this.os] + ", and your username is " + this.user + "."
+				+ "\nIf this is not correct, please set up the VPN manually as shown in confluence.";
 
 		if (this.os == OSX) {
 			File test = new File(this.confDirString);

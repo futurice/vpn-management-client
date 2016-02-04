@@ -29,6 +29,15 @@ GridPane {
     -fx-vgap: 5;
 }
 
+.step1Link{
+    -fx-border-style: hidden;
+    -fx-border-color: gray;
+}
+
+.step1Note {
+    -fx-font-weight: bold;
+}
+
 /*.label {
     -fx-wrap-text: true;
 }*/

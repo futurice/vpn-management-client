@@ -110,13 +110,14 @@ public class Generator {
 			}
 			
 	        BufferedReader stdErr = new BufferedReader(new  InputStreamReader(p.getErrorStream()));
-	        
+
+			log.warn("openssl genrsa failed");
 	        while ((s = stdErr.readLine()) != null){
 				log.warn(s);
             }
 	            
 		} catch (Exception e) {
-			log.error("", e);
+			log.error("openssl genrsa failed ", e);
 			return false;
 		}
 		return true;
@@ -142,7 +143,8 @@ public class Generator {
 	        }
 
 	        BufferedReader stdErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-	       
+
+			log.warn("openssl req failed");
             if ((s = stdErr.readLine()) != null){
 				log.warn(s);
             }
@@ -152,7 +154,7 @@ public class Generator {
             }
 	            
 		} catch (Exception e) {
-			log.error("", e);
+			log.error("openssl req failed ", e);
 			return false;
 		}
 		return true;

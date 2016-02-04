@@ -27,3 +27,6 @@ OU = OpenVPN Machines
 
 #VPN Management API
 API_BASE_URL = https://vpnmanagement.example.com/vpn
+
+#External link on wizard step 1
+WIZARD_STEP_1_URL=http://example.com/some/url

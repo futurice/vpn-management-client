@@ -12,7 +12,10 @@
     <center>
         <VBox alignment="TOP_CENTER">
             <Label fx:id="introTextLabel" wrapText="true"/>
+            <Label fx:id="introNoteTextLabel" styleClass="step1Note" wrapText="true" />
+            <Hyperlink fx:id="introTextUrl" styleClass="step1Link"/>
         </VBox>
+
 
     </center>
 
